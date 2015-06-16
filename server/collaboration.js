@@ -15,7 +15,9 @@ collaboration = module.exports = {
 			});
 
 		},
-		setUrl: function (location, data) {	
+		setUrl: function (location, data) {
+			console.log(location);
+			console.log(data);
 			var socket = this;
 			var wb_url = location.replace("/", "");
 			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
@@ -32,7 +34,7 @@ collaboration = module.exports = {
 			console.log("wb_url: "+wb_url);
 			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
 			console.log("randomnString: "+randomnString);
-			findInBoardModelforSetContainer(randomnString, wb_url, data);				
+			findInBoardModelforSetContainer(randomnString, wb_url, data);
 		},
 		eventDraw: function (location, data) {
 			var socket = this;
@@ -65,7 +67,9 @@ collaboration = module.exports = {
 				message: 'welcome'
 			});
 
-			socket.on("setUrl", thisObj.events["setUrl"]);
+			console.log(thisObj);
+
+			socket.on("setUrl", thisObj.events["setUrl"]());
 			socket.on("setContainer", thisObj.events["setContainer"]);
 			socket.on('eventDraw', thisObj.events["eventDraw"]);
 			socket.on('hello', thisObj.events['hello']);
@@ -86,7 +90,7 @@ var writeBoardModels = function(randomStr, socket) {
 				board.load(id, function (err, props) {
 					if (err) {
 						return next(err);
-					} else {                         
+					} else {
 						//console.log(":::" + props.container);
 						if (props.container == undefined || props.container == "") {
 							socket.emit('containerDraw', "empty");
@@ -147,7 +151,7 @@ var findInBoardModelforSetContainer = function (randomnString, wb_url, data) {
 							if(err)
 							{
 								console.log("***** Error in updating container for URL:"+wb_url+" Err:"+err);
-							}	
+							}
 						});
 					}
 				});

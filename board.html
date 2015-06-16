@@ -38,7 +38,7 @@
             <!--<button id="save-svg">Save SVG</button>-->
             <span id="result"></span>
             <div id="device-container">
-                <button id="done">Done Clipping</button> 
+                <button id="done">Done Clipping</button>
             </div>
         </div>
         <div id="helpDiv" style="display:none;overflow:scroll"></div>
@@ -48,7 +48,7 @@
         <!-- start of outer div -->
         <div id="outer">
             <div id="leftdiv">
-		<div class='new-logo-cntr'><a href="/" ><div class='new-logo'></div></a></div>                
+		<div class='new-logo-cntr'><a href="/" ><div class='new-logo'></div></a></div>
 		<div id="accordion"></div>
             </div>
             <div id="containerDiv" style="display:none">
@@ -182,15 +182,15 @@
 				<div><span>via</span> <span id="userLoginService">Matisse</span></div>
 			</div>
 		</div>
-		<div class="b-uinfo-links"><a href="/"><span class='b-backarrow'>&lt;&lt;</span>Back to Home</a> <div class='rightFloater'><a href="/logout">Signout</a></div></div>		
+		<div class="b-uinfo-links"><a href="/"><span class='b-backarrow'>&lt;&lt;</span>Back to Home</a> <div class='rightFloater'><a href="/logout">Signout</a></div></div>
 	</div>
-   
-    <div class="m-quick-edit"> 
+
+    <div class="m-quick-edit">
     	<span class="prop_icon" title="properties"></span>
     	<span class="copy_icon" title="copy"></span>
     	<span class="del_icon" title="delete"></span>
     </div>
-    <div class="m-quick-edit-group"> 
+    <div class="m-quick-edit-group">
     	<div class="m-align-list">
        		<ul class="menu-list">
        			<span class="menu-arrow-top"></span>
@@ -209,24 +209,25 @@
        	<span class="copy_icon" title="copy"></span>
    	<span class="del_icon" title="delete"></span>
     </div>
-    <div class="alert alert-info copy-alert inactive-alert">  
-  		<a class="close" data-dismiss="alert">×</a>  
+    <div class="alert alert-info copy-alert inactive-alert">
+  		<a class="close" data-dismiss="alert">×</a>
   		<strong>Item Copied!</strong>Now, click anywhere in the whiteboard to paste the item.
 	</div>
     <div class="alert alert-error inactive-alert">
       <a class="close" data-dismiss="alert">×</a>
       <strong>Board Cannot be Found.</strong> You will now be redirected to the dashboard page!
     </div>
-    <div class="alert alert-info clip-alert inactive-alert">  
-      <a class="close" data-dismiss="alert">×</a>  
+    <div class="alert alert-info clip-alert inactive-alert">
+      <a class="close" data-dismiss="alert">×</a>
       <strong>Click and drag the conatiner to clip content!</strong>
     </div>
-    <div class="alert alert-info shift-click-alert inactive-alert">  
+    <div class="alert alert-info shift-click-alert inactive-alert">
       <strong>Matisse does not support shift selection use rectangle select</strong>
     </div>
-                
+
       <!-- Start Including Script Files-->
-      <script src="/socket.io/socket.io.js"></script>
+      <!--<script src="/socket.io/socket.io.js"></script>-->
+      <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="/javascripts/thirdparty/FileSaver.min.js"></script>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
@@ -252,7 +253,7 @@
           });
       </script>
       <!-- End Including Script Files-->
-      
+
     <canvas id="clip" style="display:none;"></canvas>
     </body>
 </html>

@@ -10,24 +10,28 @@ application = (function () {
     var collaboration = require('./server/collaboration');
     var login = require('./server/login');
     //compress the static content
-    var gzippo = require('gzippo');
-
+    var compression = require('compression');
+    var cookieParser = require('cookie-parser');
+    var session = require('express-session');
+    var bodyParser = require('body-parser');
+    var methodOverride = require('method-override');
     var Nohm = require('nohm').Nohm;
     var BoardModel = require(__dirname + '/models/BoardModel.js');
     var ShapesModel = require(__dirname + '/models/ShapesModel.js');
     var UserModel = require(__dirname + '/models/UserModel.js');
-    var redis = require("redis");
-    var redisClient = redis.createClient(); //go thru redis readme for anyother config other than default: localhost 6379
+    var redis = require('redis').createClient();
     var logFile = null;
     var fs = require('fs');
-    //var LogToFile = require("./server/logToFile");
+    var LogToFile = require("./server/logToFile");
 
-    //redisClient.select(4);
+    // redisClient.select(4);
     Nohm.setPrefix('matisse'); //setting up app prefix for redis
-    Nohm.setClient(redisClient);
+    Nohm.setClient(redis);
 
-    login.authenticate();
-    //logging
+    redis.on("connect", function() {
+      Nohm.setClient(redis);
+      console.log("Nohm Connected to Redis Client");
+    });
     Nohm.logError = function (err) {
         if (err) {
             console.log("===============Nohm Error=======================");
@@ -36,73 +40,70 @@ application = (function () {
         }
     };
 
-    redisClient.on("error", function (err) {
+    login.authenticate();
+    //logging
+
+    redis.on("error", function (err) {
         console.log("Error %s", err);
     });
 
-    var app = module.exports = express.createServer(),
-    io = require('socket.io').listen(app);
+    var app  = express();
 
-    var configure = function () {
-        app.set('views', __dirname + '/views');
-        app.set('view engine', 'jade');
-        app.use(express.cookieParser());
-        app.use(express.session({
-            secret:'foobar'
-        }));
-        app.use(express.bodyParser());
-        app.use(everyauth.middleware());
-        //app.use(express.methodOverride());
-        app.use(app.router);
-        //app.use(gzippo.staticGzip(__dirname + '/public'));
-        app.use(express.static(__dirname + '/public'));
-        everyauth.helpExpress(app);
-    };
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade');
+    app.use('/stylesheets', express.static(__dirname + '/public/stylesheets'));
+    app.use('/javascripts', express.static(__dirname + '/public/javascripts'));
+    app.use('/images', express.static(__dirname + '/public/images'));
 
-    var setEnvironmentSettings = function (env) {
-        var expressErrorHandlerOptions = {};
-        switch (env) {
-        case 'development':
-            expressErrorHandlerOptions =  {
-                dumpExceptions:true,
-                showStack:true
-            };
-            //LogToFile.start();
-            break;
-        case 'production' :
-            break;
-        default:
-            break;
-        }
-        app.use(express.errorHandler(expressErrorHandlerOptions));
-    };
+    app.use(cookieParser());
+    app.use(session({
+        secret:'foobar'
+    }));
+    app.use(bodyParser());
+    app.use(everyauth.middleware());
+    app.use(methodOverride());
+    // app.use(app.router);
+    app.use(compression(__dirname + '/public'));
 
-    var use = function (err, req, res, next) {
-        if (err instanceof Error) {
-            err = err.message;
-        }
-        res.json({
-            result:'error',
-            data:err
-        });
-    }
-    // Configuration
-    app.configure(configure);
-    app.configure('development', function() {setEnvironmentSettings('development')});
-    app.configure('production', function() {setEnvironmentSettings('production')});
+    // var setEnvironmentSettings = function (env) {
+    //     var expressErrorHandlerOptions = {};
+    //     switch (env) {
+    //     case 'development':
+    //         expressErrorHandlerOptions =  {
+    //             dumpExceptions:true,
+    //             showStack:true
+    //         };
+    //         LogToFile.start();
+    //         break;
+    //     case 'production' :
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    //     app.use(express.errorHandler(expressErrorHandlerOptions));
+    // };
 
+    // var use = function (err, req, res, next) {
+    //     if (err instanceof Error) {
+    //         err = err.message;
+    //     }
+    //     res.json({
+    //         result:'error',
+    //         data:err
+    //     });
+    // }
     // Routes
     app.get('/', routes.index);
-    app.get('/favicon', exports.favicon);
+    // app.get('/favicon', exports.favicon);
     app.get('/boards', routes.boards.index);
-    app.resource('api', routes.api);
+    app.get('/api', routes.api.index);
     app.post('/boards', routes.boards.index);
-    app.post('/boards/update', routes.boards.update);
-    app.post('/remove', routes.boards.remove);
+    // app.post('/boards/update', routes.boards.update);
+    // app.post('/remove', routes.boards.remove);
     app.get('/about', function (req, res, next) {
 	    res.sendfile(__dirname + '/about.html');
     });
-    app.get('/userinfo', routes.userinfo);
+    // app.get('/userinfo', routes.userinfo);
 
     var logErrorOrExecute = function (err, param, callback) {
         if (err) {
@@ -184,14 +185,18 @@ application = (function () {
         }
     });
 
-    app.use(use);
-    app.listen(8000);
-    io.configure('production', function(){
-        io.set('transports', ['xhr-polling']);
-    });
+    // app.use(use);
+      var http = require('http');
+      var server = http.createServer(app);
+      var io = require('socket.io')(server);
+
+      server.listen(8000);
+    // io.configure('production', function(){
+    //     io.set('transports', ['xhr-polling']);
+    // });
     io.set('log level', 2);
 
-    console.log("Matisse server listening on port %d in %s mode", app.address().port, app.settings.env);
+    console.log("Matisse server listening on port %d in %s mode", 8000, app.settings.env);
 
     UserModel.find(function(err,userIds) {
         if (err){
@@ -240,10 +245,10 @@ application = (function () {
             });
         }
     });
-    //logFile = fs.createWriteStream('./app.log', {flags: 'a'});
-    //app.use(express.logger({stream: logFile}));
-    
+    logFile = fs.createWriteStream('./app.log', {flags: 'a'});
+    // app.use(express.logger({stream: logFile}));
+
     collaboration.collaborate(io);
 
-    require('./server/god-mode').enable(app, io, redisClient);
+    require('./server/god-mode').enable(app, io, redis);
 }).call(this);

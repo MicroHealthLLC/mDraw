@@ -11,7 +11,7 @@ define(
                 function(bidx, board) {
                     var boardName = $('<a class="name"/>')
                         .text(board.name)
-                        .attr('href', '/' + board.name); 
+                        .attr('href', '/' + board.name);
                     var usersDiv = $('<ul class="users"/>');
                     var boardDiv = $('<div class="board"/>')
                         .append(boardName)
@@ -26,6 +26,7 @@ define(
         }
 
         function connect() {
+          console.log('jories');
             var sock = io.connect('http://' + location.host + '/god');
             sock.on('active-boards', showActiveBoards);
         }

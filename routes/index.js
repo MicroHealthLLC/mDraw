@@ -59,7 +59,7 @@ function boardRemoveHandler(data, key){
 var MatisseServer = new function() {
     var collectBoards = function(req, res, boardIds, callback) {
         var boards = [], i = 0, props, board = new BoardModel(), boardCount = boardIds.length;
-        
+
         boardIds.forEach(function (id) {
             var board = new BoardModel();
             board.load(id, function (err, props) {
@@ -97,7 +97,9 @@ var MatisseServer = new function() {
 
 
 exports.index = function (req, res) {
+  //console.log('jories');
     Object.create(MatisseServer).render(req, res);
+    //res.render('index', { title:'Matisse'});
 };
 
 exports.favicon = function (req, res, next) {
@@ -194,7 +196,7 @@ exports.boards = {
         });
 
     }
-	
+
 
 }
 
@@ -234,5 +236,3 @@ exports.api = {
         });
     }
 };
-
-

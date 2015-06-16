@@ -1,13 +1,14 @@
 /**
  * Comm: Client side socket connection and communicaiton handler
- * 
- * 
+ *
+ *
 */
 define(function () {
    	"use strict";
 	/*constructor*/
 	function Comm(url) {
 		// create socket connection object
+    console.log(url);
 		this.socket = io.connect(url);
 		// variable to hold reference of this object(Comm)
 		var objRef = this;
@@ -52,7 +53,9 @@ define(function () {
 		};
 		this.onConnect =  function (data) {
 			var loc = document.location.pathname;
-			this.socket.emit("setUrl", loc, data);
+      console.log(loc);
+      console.log(data);
+			this.socket.emit("setUrl", {loc: loc, data: data});
 		};
 		this.disableActiveBoardHandler = function() {
 		  this.onDisableActiveBoard();

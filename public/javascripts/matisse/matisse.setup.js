@@ -6,20 +6,21 @@
  */
 
 define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.containers", "matisse.containers.devices", "matisse.layouts", "features/modified-by-user", "features/shared-users", "features/chat", "matisse.layouts.content", "matisse.palettes", "matisse.palettes.basicshapes", "matisse.palettes.wireframe", "matisse.palettes.components", "matisse.events", "../javascripts/thirdparty/csspopup.js", "matisse.help"], function (matisse, mfabric, Comm, main, containers, palettes, layouts, modifiedByUser, sharedUsers, chat) {
-    
+
     "use strict";
 	//Dom Ready function
 	$(function () {
 		var serverURL = 'http://'+location.host,//change it to server ip or local ip for testing from other machines
-			comm = new Comm(serverURL);
+      comm = new Comm(serverURL);
+      console.log(serverURL);
 		/**
          * Initializes the application with the containers and layout set by user or asks your to choose them if not set yet
          * @method comm.onContainerDraw
          * @param data - container name and layout type
          *
-         */	
+         */
 		comm.onContainerDraw = function (data) {
-			/* get container and layout data from server if any and assing it */			
+			/* get container and layout data from server if any and assing it */
 			data == 'empty' ? matisse.containerName = data : matisse.containerName = data.container;
 			/* if data is available then start application with this container and layout*/
 			if (matisse.containerName !== 'empty') {
@@ -30,7 +31,7 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
 			    $('#boardName').text(data.name);
 			    $('#boardName').css("top",$('#boardName').width()+60);
 				return;
-			} 
+			}
 			/* if data is not available or user logs in for the first time, show him the list of container names and layouts to choose */
 			//layouts.createLayoutsList();
 			containers.createContainerList();
