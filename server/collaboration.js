@@ -69,7 +69,7 @@ collaboration = module.exports = {
 
 			console.log(thisObj);
 
-			socket.on("setUrl", thisObj.events["setUrl"]());
+			socket.on("setUrl", thisObj.events["setUrl"]);
 			socket.on("setContainer", thisObj.events["setContainer"]);
 			socket.on('eventDraw', thisObj.events["eventDraw"]);
 			socket.on('hello', thisObj.events['hello']);
