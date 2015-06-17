@@ -6,6 +6,12 @@ var nohm = require(__dirname + '/../node_modules/nohm/lib/nohm.js').Nohm;
 var shapesModel = module.exports = nohm.model('Shapes', {
     idGenerator: 'increment',
     properties: {
+     name: {
+         type: 'string',
+         required: true,
+         defaultValue: 'name',
+         validators: ['notEmpty']
+     },
 		board_url: {
 			type: 'string',
 			index: true,
@@ -43,7 +49,7 @@ var shapesModel = module.exports = nohm.model('Shapes', {
 	},
 	methods: {
 		// custom methods we define here to make handling this model easier.
-		
+
 		/**
 		 * You can specify a data array that might come from the user and an array containing the fields that should be used from used from the data.
 		 * Optionally you can specify a function that gets called on every field/data pair to do a dynamic check if the data should be included.
@@ -72,16 +78,16 @@ var shapesModel = module.exports = nohm.model('Shapes', {
 				    // it's in the db :)
 					console.log(":::COuld not save to DB:::: " + err);
 				}
-			});	
+			});
 		},
-		
+
 		/**
 		 * This is a wrapper around fill and save.
 		 */
 		delete: function (data, callback) {
 			var self = this;
 			this.fill(data);
-			this.remove();	
+			this.remove();
 		},
 
         loadByShapeId: function(shapeId, fn) {

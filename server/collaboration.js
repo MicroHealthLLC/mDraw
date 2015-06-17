@@ -1,4 +1,5 @@
 var gname;
+var board;
 
 collaboration = module.exports = {
 	boardModel: require(__dirname + '/../models/BoardModel.js'),
@@ -6,38 +7,27 @@ collaboration = module.exports = {
 	events: {
 		nameChanged: function (data){
 			var socket = this;
-			console.log('nameChanged');
-			console.log(data);
-			socket.get('board', function(err, board) {
 				socket.broadcast.to(board).emit('nameChanged',data);
 				socket.set('name', data.newName);
-			});
-			socket.get('name', function(err,name){
-				console.log('name changed ',name);
-			});
-
+				gname = data.newName;
 		},
 		setUrl: function (location) {
 			if (location === undefined) {
 				return;
 			}
-			console.log(location);
 			var socket = this;
 			var wb_url = location.loc.replace("/", "");
 			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
 			socket.join(wb_url);
-                        // socket.set('board', wb_url);
-                        socket.emit('joined');
+			board = wb_url;
+			socket.emit('joined');
 
 			writeBoardModels(randomnString, socket);
 			writeShapeModels(wb_url, socket);
 		},
 		setContainer: function (location, data) {
-			console.log("location: "+location);
 			var wb_url = location.replace("/", "");
-			console.log("wb_url: "+wb_url);
 			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
-			console.log("randomnString: "+randomnString);
 			findInBoardModelforSetContainer(randomnString, wb_url, data);
 		},
 		eventDraw: function (location, data) {
@@ -48,30 +38,20 @@ collaboration = module.exports = {
 		hello: function (name) { // user joins say hello to all
 			var s = this;
 			gname = name;
-			// s.set('name', name);
-			// console.log('got ', name);
-			// s.get('board', function(err, board) {
-				console.log('broadcasting to all');
-			  s.broadcast.to(name).emit('hello',name);
-				  // });
+			console.log('broadcasting to all');
+		  s.broadcast.to(name).emit('hello',name);
 		},
-		bye: function () { // user left say bye to all
+		bye: function () {
 			var s = this;
-			// s.get('name', function(err, name) {
-					  // s.get('board', function(err, board) {
-								s.broadcast.to(gname).emit('bye',gname);
-							// });
-				  // });
+			s.broadcast.to(gname).emit('bye',gname);
 		}
 	},
 	collaborate: function (io) {
 		var thisObj = this;
 		io.sockets.on('connection', function (socket) {
-			//var setUrl = thisObj.events["setUrl"];
 			socket.emit('eventConnect', {
 				message: 'welcome'
 			});
-
 			socket.on("setUrl", thisObj.events["setUrl"]);
 			socket.on("setContainer", thisObj.events["setContainer"]);
 			socket.on('eventDraw', thisObj.events["eventDraw"]);
@@ -94,7 +74,6 @@ var writeBoardModels = function(randomStr, socket) {
 					if (err) {
 						return next(err);
 					} else {
-						//console.log(":::" + props.container);
 						if (props.container == undefined || props.container == "") {
 							socket.emit('containerDraw', "empty");
 						} else {
@@ -189,17 +168,17 @@ var drawOnBoard = function (url, data, socket) {
                     shape.loadByShapeId(
                         data.shapeId,
                         function(err, props) {
-                           if(!err) {
-                               data.args.name = props.args.name;
-                               data.args.uid = props.shapeId;
-                               data.args.palette = props.palette;
-                               data.palette = props.palette;
-                               data.action = props.action;
-                               shape.store(data, function(){});
-                               socket.broadcast
-                                   .to(url)
-                                   .emit('eventDraw', shape);
-                           }
+                          if(!err) {
+                             data.args.name = props.args.name;
+                             data.args.uid = props.shapeId;
+                             data.args.palette = props.palette;
+                             data.palette = props.palette;
+                             data.action = props.action;
+                             shape.store(data, function(){});
+                             socket.broadcast
+                                 .to(url)
+                                 .emit('eventDraw', shape);
+                         	}
                         });
                 } else if (data.action == "delete") {
                     shape.loadByShapeId(

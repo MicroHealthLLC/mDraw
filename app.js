@@ -185,7 +185,7 @@ application = (function () {
                                 //        });
                                 //    }
                                 //});
-                                res.sendfile('/board.html',{root: __dirname});
+                                res.sendFile('/board.html',{root: __dirname});
                             }
                             else {
                                 redirectToHome(req, res);
