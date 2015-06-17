@@ -9,7 +9,6 @@ application = (function () {
     var everyauth = require('everyauth');
     var collaboration = require('./server/collaboration');
     var login = require('./server/login');
-    //compress the static content
     var compression = require('compression');
     var cookieParser = require('cookie-parser');
     var session = require('express-session');
@@ -24,24 +23,65 @@ application = (function () {
     var fs = require('fs');
     var LogToFile = require("./server/logToFile");
 
-    // redisClient.select(4);
-    Nohm.setPrefix('matisse'); //setting up app prefix for redis
-    Nohm.setClient(redis);
+    login.authenticate();
+
+    redis.select(4);
+    Nohm.setPrefix('matisse');
 
     redis.on("connect", function() {
       Nohm.setClient(redis);
+      /*this userModel object must go here after*/
+      /*establishing Nohm connection in the redis and to avoid the error of*/
+      /*Warning: setClient() received a redis client that is not connected yet. Consider waiting for an established connection before setting it*/
+      UserModel.find(function(err,userIds) {
+          if (err){
+              console.log("***Error in finding users***"+err);
+          }
+          else{
+              userIds.forEach(function (userid) {
+                  var user = new UserModel();
+                  user.load(userid, function (err, props) {
+                      user.getAll('Board', 'sharedBoard', function(err, ids) {
+                          console.log("shared");
+                          console.log(ids);
+                          if(!err) {
+                              ids.forEach(function (id) {
+                                  var board = new BoardModel();
+                                  board.load(id, function (err, props) {
+                                      console.log(id);
+                                      console.log("---------");
+                                      board.link(user, 'userShared');
+                                      board.save(noop);
+                                  });
+                              });
+                          }
+                          else {
+                              console.log("***Error in unlinking sharedBoard from other users***"+err);
+                          }
+                      });
+
+                      user.getAll('Board', 'ownedBoard', function(err, bids) {
+                          console.log("owned");
+                          console.log(bids);
+                          if(!err) {
+                              bids.forEach(function (bid) {
+                                  var sboard = new BoardModel();
+                                  sboard.load(bid, function (err, props) {
+                                      sboard.link(user, 'userOwned');
+                                      sboard.save(noop);
+                                  });
+                              });
+                          } else {
+                              console.log("***Error in linking ownedBoard from other users***"+err);
+                          }
+                      });
+
+                  });
+              });
+          }
+      });
       console.log("Nohm Connected to Redis Client");
     });
-    Nohm.logError = function (err) {
-        if (err) {
-            console.log("===============Nohm Error=======================");
-            console.log(err);
-            console.log("======================================");
-        }
-    };
-
-    login.authenticate();
-    //logging
 
     redis.on("error", function (err) {
         console.log("Error %s", err);
@@ -57,44 +97,19 @@ application = (function () {
 
     app.use(cookieParser());
     app.use(session({
-        secret:'foobar'
+        secret:'foobar',
+        resave: true,
+        saveUninitialized: true
     }));
-    app.use(bodyParser());
+    app.use(bodyParser.urlencoded({
+      extended: true
+    }));
     app.use(everyauth.middleware());
     app.use(methodOverride());
-    // app.use(app.router);
     app.use(compression(__dirname + '/public'));
 
-    // var setEnvironmentSettings = function (env) {
-    //     var expressErrorHandlerOptions = {};
-    //     switch (env) {
-    //     case 'development':
-    //         expressErrorHandlerOptions =  {
-    //             dumpExceptions:true,
-    //             showStack:true
-    //         };
-    //         LogToFile.start();
-    //         break;
-    //     case 'production' :
-    //         break;
-    //     default:
-    //         break;
-    //     }
-    //     app.use(express.errorHandler(expressErrorHandlerOptions));
-    // };
-
-    // var use = function (err, req, res, next) {
-    //     if (err instanceof Error) {
-    //         err = err.message;
-    //     }
-    //     res.json({
-    //         result:'error',
-    //         data:err
-    //     });
-    // }
     // Routes
     app.get('/', routes.index);
-    // app.get('/favicon', exports.favicon);
     app.get('/boards', routes.boards.index);
     app.get('/api', routes.api.index);
     app.post('/boards', routes.boards.index);
@@ -185,70 +200,13 @@ application = (function () {
         }
     });
 
-    // app.use(use);
       var http = require('http');
       var server = http.createServer(app);
       var io = require('socket.io')(server);
 
       server.listen(8000);
-    // io.configure('production', function(){
-    //     io.set('transports', ['xhr-polling']);
-    // });
-    io.set('log level', 2);
 
-    console.log("Matisse server listening on port %d in %s mode", 8000, app.settings.env);
-
-    UserModel.find(function(err,userIds) {
-        if (err){
-            console.log("***Error in finding users***"+err);
-        }
-        else{
-            userIds.forEach(function (userid) {
-                var user = new UserModel();
-                user.load(userid, function (err, props) {
-                    user.getAll('Board', 'sharedBoard', function(err, ids) {
-                        console.log("shared");
-                        console.log(ids);
-                        if(!err) {
-                            ids.forEach(function (id) {
-                                var board = new BoardModel();
-                                board.load(id, function (err, props) {
-                                    console.log(id);
-                                    console.log("---------");
-                                    board.link(user, 'userShared');
-                                    board.save(noop);
-                                });
-                            });
-                        }
-                        else {
-                            console.log("***Error in unlinking sharedBoard from other users***"+err);
-                        }
-                    });
-
-                    user.getAll('Board', 'ownedBoard', function(err, bids) {
-                        console.log("owned");
-                        console.log(bids);
-                        if(!err) {
-                            bids.forEach(function (bid) {
-                                var sboard = new BoardModel();
-                                sboard.load(bid, function (err, props) {
-                                    sboard.link(user, 'userOwned');
-                                    sboard.save(noop);
-                                });
-                            });
-                        } else {
-                            console.log("***Error in linking ownedBoard from other users***"+err);
-                        }
-                    });
-
-                });
-            });
-        }
-    });
-    logFile = fs.createWriteStream('./app.log', {flags: 'a'});
-    // app.use(express.logger({stream: logFile}));
-
-    collaboration.collaborate(io);
-
-    require('./server/god-mode').enable(app, io, redis);
+      console.log("Matisse server listening on port %d in %s mode", 8000, app.settings.env);
+      collaboration.collaborate(io);
+      //require('./server/god-mode').enable(app, io, redis);
 }).call(this);

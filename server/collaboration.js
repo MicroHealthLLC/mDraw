@@ -1,3 +1,5 @@
+var gname;
+
 collaboration = module.exports = {
 	boardModel: require(__dirname + '/../models/BoardModel.js'),
 	shapesModel: require(__dirname + '/../models/ShapesModel.js'),
@@ -15,14 +17,16 @@ collaboration = module.exports = {
 			});
 
 		},
-		setUrl: function (location, data) {
+		setUrl: function (location) {
+			if (location === undefined) {
+				return;
+			}
 			console.log(location);
-			console.log(data);
 			var socket = this;
-			var wb_url = location.replace("/", "");
+			var wb_url = location.loc.replace("/", "");
 			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
 			socket.join(wb_url);
-                        socket.set('board', wb_url);
+                        // socket.set('board', wb_url);
                         socket.emit('joined');
 
 			writeBoardModels(randomnString, socket);
@@ -43,20 +47,21 @@ collaboration = module.exports = {
 		},
 		hello: function (name) { // user joins say hello to all
 			var s = this;
-			s.set('name', name);
-			console.log('got ', name);
-			s.get('board', function(err, board) {
+			gname = name;
+			// s.set('name', name);
+			// console.log('got ', name);
+			// s.get('board', function(err, board) {
 				console.log('broadcasting to all');
-			  s.broadcast.to(board).emit('hello',name);
-				  });
+			  s.broadcast.to(name).emit('hello',name);
+				  // });
 		},
 		bye: function () { // user left say bye to all
 			var s = this;
-			s.get('name', function(err, name) {
-					  s.get('board', function(err, board) {
-								s.broadcast.to(board).emit('bye',name);
-							});
-				  });
+			// s.get('name', function(err, name) {
+					  // s.get('board', function(err, board) {
+								s.broadcast.to(gname).emit('bye',gname);
+							// });
+				  // });
 		}
 	},
 	collaborate: function (io) {
@@ -66,8 +71,6 @@ collaboration = module.exports = {
 			socket.emit('eventConnect', {
 				message: 'welcome'
 			});
-
-			console.log(thisObj);
 
 			socket.on("setUrl", thisObj.events["setUrl"]);
 			socket.on("setContainer", thisObj.events["setContainer"]);

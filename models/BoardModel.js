@@ -17,7 +17,7 @@ var boardModel = module.exports = nohm.model('Board', {
 	    ]
 	},
 	container: {
-	    type: 'string'		
+	    type: 'string'
 	},
 	canvasWidth: {
 		type: 'number'
@@ -38,7 +38,7 @@ var boardModel = module.exports = nohm.model('Board', {
     },
     methods: {
 	// custom methods we define here to make handling this model easier.
-      
+
 	/**
 	 * You can specify a data array that might come from the user and an array containing the fields that should be used from used from the data.
 	 * Optionally you can specify a function that gets called on every field/data pair to do a dynamic check if the data should be included.
@@ -47,13 +47,13 @@ var boardModel = module.exports = nohm.model('Board', {
 	fill: function (data, fields) {
 	    var props = {},
             self = this;
-	    
+
 	    fields = Array.isArray(fields) ? fields : Object.keys(data);
-	  
+
 	    fields.forEach(function (i) {
 		props[i] = data[i];
 	    });
-	    
+
 	    this.p(props);
 	    return props;
 	},
@@ -62,7 +62,7 @@ var boardModel = module.exports = nohm.model('Board', {
 	 */
 	store: function (data, callback) {
 	    var self = this;
-	    
+
 	    this.fill(data);
 	    this.save(function () {
 			callback.apply(self, Array.prototype.slice.call(arguments, 0));
@@ -70,4 +70,3 @@ var boardModel = module.exports = nohm.model('Board', {
 	}
     }
 });
-

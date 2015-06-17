@@ -8,6 +8,7 @@ define(function () {
 	/*constructor*/
 	function Comm(url) {
 		// create socket connection object
+    console.log('URL CONNECTION');
     console.log(url);
 		this.socket = io.connect(url);
 		// variable to hold reference of this object(Comm)
@@ -53,6 +54,7 @@ define(function () {
 		};
 		this.onConnect =  function (data) {
 			var loc = document.location.pathname;
+      console.log('onCONNECT');
       console.log(loc);
       console.log(data);
 			this.socket.emit("setUrl", {loc: loc, data: data});
