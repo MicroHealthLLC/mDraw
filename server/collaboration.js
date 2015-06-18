@@ -7,9 +7,12 @@ collaboration = module.exports = {
 	events: {
 		nameChanged: function (data){
 			var socket = this;
+
+			socket.on('connection', function() {
 				socket.broadcast.to(board).emit('nameChanged',data);
 				socket.set('name', data.newName);
 				gname = data.newName;
+			});
 		},
 		setUrl: function (location) {
 			if (location === undefined) {
@@ -18,9 +21,11 @@ collaboration = module.exports = {
 			var socket = this;
 			var wb_url = location.loc.replace("/", "");
 			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
-			socket.join(wb_url);
 			board = wb_url;
-			socket.emit('joined');
+			socket.on('connection', function() {
+				socket.join(wb_url);
+				socket.emit('joined');
+			});
 
 			writeBoardModels(randomnString, socket);
 			writeShapeModels(wb_url, socket);
@@ -38,17 +43,21 @@ collaboration = module.exports = {
 		hello: function (name) { // user joins say hello to all
 			var s = this;
 			gname = name;
-			console.log('broadcasting to all');
-		  s.broadcast.to(name).emit('hello',name);
+			s.on('connection', function() {
+				console.log('broadcasting to all');
+				s.broadcast.to(name).emit('hello',name);
+			});
 		},
 		bye: function () {
 			var s = this;
-			s.broadcast.to(gname).emit('bye',gname);
+			s.on('connection', function() {
+				s.broadcast.to(gname).emit('bye',gname);
+			});
 		}
 	},
 	collaborate: function (io) {
 		var thisObj = this;
-		io.sockets.on('connection', function (socket) {
+		io.on('connection', function (socket) {
 			socket.emit('eventConnect', {
 				message: 'welcome'
 			});

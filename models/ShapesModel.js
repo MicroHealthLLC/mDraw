@@ -7,10 +7,14 @@ var shapesModel = module.exports = nohm.model('Shapes', {
     idGenerator: 'increment',
     properties: {
      name: {
-         type: 'string',
-         required: true,
-         defaultValue: 'name',
-         validators: ['notEmpty']
+       type: 'string',
+       required: true,
+       defaultValue: 'name',
+       validators: ['notEmpty']
+     },
+     modifiedBy: {
+       type: 'string',
+       required: false
      },
 		board_url: {
 			type: 'string',
