@@ -822,12 +822,12 @@ dashboardLeftThumbnail {
     border: 0;
 
 }
-#createWhiteboard {
+/*#createWhiteboard {
     border: 0;
     background: rgb(206, 114, 46);
     color: #ffffff;
     padding: 0 1em;
-}
+}*/
 #whiteboard-form-wrapper{
     padding-top:20%;
 }
@@ -1011,8 +1011,8 @@ div.inactive-alert {display:none; left: 37%; position: absolute; top: 0;}
 .json-export {height:65%; width:90%}
 
 .thumbnailCaption.editable {
-    background-image:url('../images/icon-pencil.png'); 
-    background-repeat:no-repeat; 
+    background-image:url('../images/icon-pencil.png');
+    background-repeat:no-repeat;
     padding:0 0 0 15px;
 }
 
@@ -1028,4 +1028,4 @@ div.inactive-alert {display:none; left: 37%; position: absolute; top: 0;}
 /************** Delete WhiteBoard Transition -- End -- ************/
 
 #device-container{ position:absolute; display:none;cursor: move;}
-.scale-container{ transform: scale(0.75); -moz-transform: scale(0.75); -webkit-transform: scale(0.75); -ms-transform: scale(0.75); -o-transform: scale(0.75);} 
+.scale-container{ transform: scale(0.75); -moz-transform: scale(0.75); -webkit-transform: scale(0.75); -ms-transform: scale(0.75); -o-transform: scale(0.75);}

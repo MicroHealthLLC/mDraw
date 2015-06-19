@@ -30,27 +30,36 @@ html
                 div(class='span4 leftHeader')
                     div#loginLogo
                         img(src='images/mattise_whitebg.png')
-
+                
                 div(class='span8 rightHeader')
-                    div(class='text', id='testimonial')
-                        //if everyauth.loggedIn
-                        div(class='row', id='rightheaderContent')
-                            div.span4
-                                div(class='btn-toolbar', id='rightHeaderButton')
-                                    div(class='btn-group', style='padding-right: 10px;')
-                                        div.numButton
-                                            h3 #{createdNum}
-                                            h6 Owned by Me
-                                    div(class='btn-group')
-                                        div.numButton
-                                            h3 #{sharedNum}
-                                            h6 Shared with Me
-                            div(class='span3')
-                                div.row
-                                    div.span3
-                                        div(class='btn-group pull-right', id='launchButton')
-                                            button(class='btn btn-action', data-toggle='modal', data-target="#whiteboardForm")
-                                                h3 New Whiteboard &raquo;
+                  div.col-lg-12(style="text-align: center;margin-top: 20px;padding-bottom:31px;")
+                    <!-- comments -->
+                    form(name='whiteboard', id='whiteboard', class='form-horizontal', method='post', action='/boards/')
+                      button.btn.btn-large.btn-success(style="margin-bottom:5px") NEW DRAWING
+                      .col-lg-6
+                        .input-group
+                          input.form-control(name='whiteboardName', type='text', id="name", placeholder="Name")
+                          span.input-group-btn
+                            button.btn.btn-default(type='submit', style="padding:12px;border-radius:0", id="createWhiteboard") OK
+                    //- div(class='text', id='testimonial')
+                    //-     //if everyauth.loggedIn
+                    //-     div(class='row', id='rightheaderContent')
+                    //-         div.span4
+                    //-             div(class='btn-toolbar', id='rightHeaderButton')
+                    //-                 div(class='btn-group', style='padding-right: 10px;')
+                    //-                     div.numButton
+                    //-                         h3 #{createdNum}
+                    //-                         h6 Owned by Me
+                    //-                 div(class='btn-group')
+                    //-                     div.numButton
+                    //-                         h3 #{sharedNum}
+                    //-                         h6 Shared with Me
+                    //-         div(class='span3')
+                    //-             div.row
+                    //-                 div.span3
+                    //-                     div(class='btn-group pull-right', id='launchButton')
+                    //-                         button(class='btn btn-action', data-toggle='modal', data-target="#whiteboardForm")
+                    //-                             h3 New Whiteboard &raquo; 
                         //else
                             div.span1
                                 img(src='images/blockquotes_start.png', alt='"', align='top', width='20', height='20', class='pull-left')
@@ -125,16 +134,14 @@ html
                             iframe(width='300', height='169', src='https://www.youtube.com/embed/F4hA1A1PVxw', frameborder='0', allowfullscreen='true')
                 div(class='span8', id='loginRightContent')
                     if !everyauth.loggedIn
-                        div.row
-                            div.span4
-                                h3
-                                    |TEST
-                            div(class='span4')
-                                div(class='btn-toolbar pull-left', id='rightContentButton')
-                                    div(class='btn-group')
-                                        button(class='greyButton') Version: 0.6Alpha
-                                    div(class='btn-group')
-                                        button(class='greyButton') Last updated July 31,2012
+                        //- div.col-lg-12(style="text-align: center")
+                        //-   <!-- comments -->
+                        //-   button.btn.btn-success(style="margin-bottom:5px") NEW DRAWING
+                        //-   .col-lg-6
+                        //-     .input-group
+                        //-       input.form-control(type='text', placeholder='')
+                        //-       span.input-group-btn
+                        //-         button.btn.btn-default(type='button', style="margin-bottom:10px") OK
                         div(class='row')
                             div(class='span8')
                         div(class='row')
@@ -233,52 +240,52 @@ html
                                 a(href='https://github.com/Imaginea/matisse/wiki') Matisse Wiki
                                 a(href='https://github.com/Imaginea/matisse') Github Repository
                                 a(href='https://github.com/Imaginea/matisse/issues') Bug Tracker
-                div(class='modal hide fade', id='whiteboardForm', style='display: none;')
-                    div(class='modal-header')
-                        h4 New whiteboard
-                            a(class='close', data-dismiss='modal') x
-                    div(class='modal-body')
-                        form(name='whiteboard', id='whiteboard', class='form-horizontal', method='post', action='/boards/')
-                            fieldset
-                                div(class='control-group', id="whiteboardName")
-                                    label(class='control-label', for='whiteboardName') Name*:
-                                    div(class='controls')
-                                        input(name='whiteboardName', id="name", type="text", placeholder="Name")
-                                        div(id='nameError') Please enter a valid name!
-                                div(class='control-group', id="containerlist", style='display:none')
-                                    label(class='control-label', for='containerListInput') Container type:
-                                    div(class='controls')
-                                        select(name='container', id="containers")
-                                            option(value="desktop-1024x768", id="desktop-1024x768") Desktop-1024x768
-                                            option(value="desktop-1280x1024", id="desktop-1280x1024") Desktop-1280x1024
-                                            option(value="iphone", id="iPhone") iPhone
-                                            option(value="ipad", id="iPad") iPad
-                                            option(value="blackberry", id="BlackBerry") BlackBerry
-                                            option(value="browser", id="Browser") Browser
-                                div(class='control-group', id="layoutList", style='display:none')
-                                    label(class='control-label', for='layoutListInput') Template:
-                                    div(class='controls')
-                                        select(name='layout', id="layouts")
-                                            optgroup(label="content")
-                                                option(value="blank", id="blank") Blank
-                                                option(value="column_header", id="column_header") Column_header
-                                                option(value="column_header_footer", id="column_header_footer") Column_Header_Footer
-                                                option(value="two_column_header", id="two_column_header") Two_Column_Header
-                                                option(value="two_column_header_footer", id="two_column_header_footer") Two_Column_Header_Footer
-                                                option(value="three_column_header", id="three_column_header") Three_Column_Header
-                                                option(value="three_column_header_footer", id="three_column_header_footer") Three_Column_Header_Footer
-                                div(class='control-group', id="canvaswidth", style='display:none')
-                                    label(class='control-label', for='canvasWidth') Canvas Width:
-                                    div(class='controls')
-                                        input(name='canvasWidth', id="canvasWidth", type="text", value="1024")
-                                div(class='control-group', id="canvasheight", style='display:none')
-                                    label(class='control-label', for='canvasWidth') Canvas Height:
-                                    div(class='controls')
-                                        input(name='canvasHeight', id="canvasHeight", type="text", value="768")
-                    div(class='modal-footer')
-                        p(class="help-block pull-left") *Required
-                        a(href='#', class='btn btn-primary', data-dismiss='modal', id='createWhiteboard') Create
-                        a(href='#', class='btn', data-dismiss='modal') Cancel
+                //- div(class='modal hide fade', id='whiteboardForm', style='display: none;')
+                //-     div(class='modal-header')
+                //-         h4 New whiteboard
+                //-             a(class='close', data-dismiss='modal') x
+                //-     div(class='modal-body')
+                //-         form(name='whiteboards', id='whiteboards', class='form-horizontal', method='post', action='/boards/')
+                //-             fieldset
+                //-                 div(class='control-group', id="whiteboardName")
+                //-                     label(class='control-label', for='whiteboardName') Name*:
+                //-                     div(class='controls')
+                //-                         input(name='whiteboardName', id="name", type="text", placeholder="Name")
+                //-                         div(id='nameError') Please enter a valid name!
+                //-                 div(class='control-group', id="containerlist", style='display:none')
+                //-                     label(class='control-label', for='containerListInput') Container type:
+                //-                     div(class='controls')
+                //-                         select(name='container', id="containers")
+                //-                             option(value="desktop-1024x768", id="desktop-1024x768") Desktop-1024x768
+                //-                             option(value="desktop-1280x1024", id="desktop-1280x1024") Desktop-1280x1024
+                //-                             option(value="iphone", id="iPhone") iPhone
+                //-                             option(value="ipad", id="iPad") iPad
+                //-                             option(value="blackberry", id="BlackBerry") BlackBerry
+                //-                             option(value="browser", id="Browser") Browser
+                //-                 div(class='control-group', id="layoutList", style='display:none')
+                //-                     label(class='control-label', for='layoutListInput') Template:
+                //-                     div(class='controls')
+                //-                         select(name='layout', id="layouts")
+                //-                             optgroup(label="content")
+                //-                                 option(value="blank", id="blank") Blank
+                //-                                 option(value="column_header", id="column_header") Column_header
+                //-                                 option(value="column_header_footer", id="column_header_footer") Column_Header_Footer
+                //-                                 option(value="two_column_header", id="two_column_header") Two_Column_Header
+                //-                                 option(value="two_column_header_footer", id="two_column_header_footer") Two_Column_Header_Footer
+                //-                                 option(value="three_column_header", id="three_column_header") Three_Column_Header
+                //-                                 option(value="three_column_header_footer", id="three_column_header_footer") Three_Column_Header_Footer
+                //-                 div(class='control-group', id="canvaswidth", style='display:none')
+                //-                     label(class='control-label', for='canvasWidth') Canvas Width:
+                //-                     div(class='controls')
+                //-                         input(name='canvasWidth', id="canvasWidth", type="text", value="1024")
+                //-                 div(class='control-group', id="canvasheight", style='display:none')
+                //-                     label(class='control-label', for='canvasWidth') Canvas Height:
+                //-                     div(class='controls')
+                //-                         input(name='canvasHeight', id="canvasHeight", type="text", value="768")
+                //-     div(class='modal-footer')
+                //-         p(class="help-block pull-left") *Required
+                //-         a(href='#', class='btn btn-primary', data-dismiss='modal', id='createWhiteboard') Create
+                //-         a(href='#', class='btn', data-dismiss='modal') Cancel
 script(type='text/javascript', src='/javascripts/thirdparty/bootstrap/bootstrap-carousel.js')
 script(type='text/javascript', src='/javascripts/thirdparty/bootstrap/bootstrap-modal-dialog.js')
 script(type='text/javascript', src='/javascripts/matisse/showAll.js')

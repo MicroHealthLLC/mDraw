@@ -16,7 +16,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
     });
     //canvas.setOverlayImage('/images/bg_overlay_iphone.png', canvas.renderAll.bind(canvas));
     /**
-     * by default selection mode is false 
+     * by default selection mode is false
      */
     canvas.isSelectMode = false;
     var main = {
@@ -33,10 +33,10 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             ui.bindResizeWindow();
             ui.drawHVLines();
             canvas.isSelectMode = true;
-            
+
             matisse.xOffset = util.getOffset(document.getElementById('canvasId')).left+matisse.xOffset;
             matisse.yOffset = util.getOffset(document.getElementById('canvasId')).top+ matisse.yOffset;
-            
+
             // this.addTools();
 
             document.onkeydown = events.keyDown;
@@ -77,7 +77,9 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             $('#save-png').click(mActionBar.handlePngDownload);
             $('#save-svg').click(mActionBar.handleSvgDownload);
 
-            if(matisse.containers[matisse.containerName].src=="") {
+            console.log(matisse.containers[matisse.containerName]);
+
+            if(matisse.containers[matisse.containerName] === undefined) {
                 $('#showImageIcon').click(mActionBar.handleRawAction);
             } else {
                 $('#showImageIcon').click(toolHandlers.openSubmenu);
@@ -92,14 +94,14 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                 canvas.fire('object:modified');
                 canvas.renderAll();
             });
-            $('div.m-quick-edit').on("click", "span", function(event) { 
-                var item_checked = $(event.target); 
+            $('div.m-quick-edit').on("click", "span", function(event) {
+                var item_checked = $(event.target);
                 if(item_checked.hasClass('prop_icon')) {item_checked.addClass('selected');toolHandlers.openPropertiesPanel();}
                 else if(item_checked.hasClass('copy_icon')) {item_checked.addClass('selected');mActionBar.handleCopyAction();}
                 else {mActionBar.stateUpdated(null, "deleted");util.hideQuickMenuDiv();}
             });
-            
-            $('div.m-quick-edit-group').on("click", "span", function(event) { 
+
+            $('div.m-quick-edit-group').on("click", "span", function(event) {
                 var item_checked = $(event.target);
                 if(item_checked.hasClass('prop_icon')) {
                     item_checked.toggleClass('selected');
@@ -110,8 +112,8 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                     mActionBar.stateUpdated(null, "deleted");util.hideQuickMenuGroupDiv();
                 }
             });
-            
-            mActionBar.initialize();            
+
+            mActionBar.initialize();
             mfabric.initialize();
 
             //TODO - Refactor
@@ -219,14 +221,14 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
         addTools: function () {
             palettes.createAllPallettes(matisse.palette);
             new CustomAccordion({
-                "cntrId":"accordion",  
+                "cntrId":"accordion",
                 "headerClass":"p-header",
                 "sectionClass":"p-cntr",
                 "headerOpenClass":"p-open",
                 "headerCloseClass":"p-close"
             });
-            
-            
+
+
             $('#toolsdiv').append("<div id='deleteTool' class='tools deleteTool'></div>");
             $('#deleteTool').click(function () {
                 main.deleteObjects();
@@ -273,13 +275,13 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                     } else {
                         if (matisse.palette[data.palette] !== undefined) {
                             matisse.palette[data.palette].shapes[data.action].toolAction.apply(this, data.args);
-                        }                   
+                        }
                     }
                 }
             };
         },
         /**
-         * Adding image to canvas when data received from Server 
+         * Adding image to canvas when data received from Server
          * @method addImageToCanvasFromServer
          * @param args - image source and other properties
          */
@@ -289,14 +291,14 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                 args.image = this;
                 args.width = this.width;
                 args.height = this.height;
-                matisse.main.addImageToCanvas(args);    
+                matisse.main.addImageToCanvas(args);
             }
             /* args.src - image source as dataURL */
             img.src = args.src;
         },
-        
+
         /**
-         * Adding layout to canvas when data received from Server 
+         * Adding layout to canvas when data received from Server
          * @method addLayoutToCanvasFromServer
          * @param args - image source and other properties
          */
@@ -306,12 +308,12 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                 args.image = this;
                 args.width = this.width;
                 args.height = this.height;
-                matisse.main.addLayoutToCanvas(args);   
+                matisse.main.addLayoutToCanvas(args);
             }
             /* args.src - image source as dataURL */
             img.src = args.src;
         },
-        
+
         /**
          * Adding layout to canvas as a background image when user selects a layout image from local storage
          * @method addLayoutToCanvas
@@ -319,23 +321,23 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
          */
         addLayoutToCanvas: function (args) {
             /* args.image - HTML Element */
-            var fabImage = new fabric.Image(args.image, {               
+            var fabImage = new fabric.Image(args.image, {
                 width: args.width,
-                height: args.height             
-            });         
+                height: args.height
+            });
             canvas.setBackgroundImage(args.src, function() {
                 canvas.renderAll();
             });
             fabImage.uid = args.uid;
             fabImage.name = args.name;
-            fabImage.palette = args.palette;            
+            fabImage.palette = args.palette;
             if(args.self) {
                 args.self = false;
                 matisse.comm.sendDrawMsg({
                     action: 'uploadLayout',
                     palette: fabImage.palette,
                     args: [{
-                        uid: fabImage.uid,                      
+                        uid: fabImage.uid,
                         name: fabImage.name,
                         image:args.image,
                         src:args.src,
@@ -376,7 +378,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                         left: fabImage.left,
                         top: fabImage.top,
                         width: fabImage.width,
-                        height: fabImage.height,    
+                        height: fabImage.height,
                         scaleX: fabImage.scaleX,
                         scaleY: fabImage.scaleY,
                         name: fabImage.name,
@@ -386,8 +388,8 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                     }]
                 });
             }
-        }   
-    }; // end of 'return'    
+        }
+    }; // end of 'return'
     main.commOnDraw();
     return main;
 });

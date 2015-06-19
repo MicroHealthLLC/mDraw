@@ -29,7 +29,7 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
 				containers.canvasHeight = data.canvasHeight;
 				containers.setContainer(matisse.containerName, 'old', containers.canvasWidth, containers.canvasHeight);
 			    $('#boardName').text(data.name);
-			    $('#boardName').css("top",$('#boardName').width()+60);
+			    $('#boardName').css("top",$('#boardName').width()+20);
 				return;
 			}
 			/* if data is not available or user logs in for the first time, show him the list of container names and layouts to choose */
