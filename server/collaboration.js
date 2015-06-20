@@ -130,7 +130,7 @@ var findInBoardModelforSetContainer = function (randomnString, wb_url, data) {
 };
 
 var drawOnBoard = function (url, data, socket) {
-    if (data.action === "clearText") {
+    if (data.action === "clearText" || data.action === 'chat') {
         return;
     }
     collaboration.boardModel.find(
