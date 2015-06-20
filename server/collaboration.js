@@ -1,75 +1,53 @@
 var gname;
 var board;
+var socket;
 
 collaboration = module.exports = {
 	boardModel: require(__dirname + '/../models/BoardModel.js'),
 	shapesModel: require(__dirname + '/../models/ShapesModel.js'),
-	events: {
-		nameChanged: function (data){
-			var socket = this;
-
-			socket.on('connection', function() {
-				socket.broadcast.to(board).emit('nameChanged',data);
-				socket.set('name', data.newName);
-				gname = data.newName;
-			});
-		},
-		setUrl: function (location) {
-			if (location === undefined) {
-				return;
-			}
-			var socket = this;
-			var wb_url = location.loc.replace("/", "");
-			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
-			board = wb_url;
-			socket.on('connection', function() {
-				socket.join(wb_url);
-				socket.emit('joined');
-			});
-
-			writeBoardModels(randomnString, socket);
-			writeShapeModels(wb_url, socket);
-		},
-		setContainer: function (location, data) {
-			var wb_url = location.replace("/", "");
-			var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
-			findInBoardModelforSetContainer(randomnString, wb_url, data);
-		},
-		eventDraw: function (location, data) {
-			var socket = this;
-			var url = location.replace("/", "");
-			drawOnBoard(url, data, socket);
-		},
-		hello: function (name) { // user joins say hello to all
-			var s = this;
-			gname = name;
-			s.on('connection', function() {
-				console.log('broadcasting to all');
-				s.broadcast.to(name).emit('hello',name);
-			});
-		},
-		bye: function () {
-			var s = this;
-			s.on('connection', function() {
-				s.broadcast.to(gname).emit('bye',gname);
-			});
-		}
-	},
 	collaborate: function (io) {
 		var thisObj = this;
 		io.on('connection', function (socket) {
 			socket.emit('eventConnect', {
 				message: 'welcome'
 			});
-			socket.on("setUrl", thisObj.events["setUrl"]);
-			socket.on("setContainer", thisObj.events["setContainer"]);
-			socket.on('eventDraw', thisObj.events["eventDraw"]);
-			socket.on('hello', thisObj.events['hello']);
-			socket.on('disconnect', thisObj.events['bye']);
-			socket.on('nameChanged', thisObj.events['nameChanged']);
+			socket.on("setUrl", function (location) {
+				if (location === undefined) {
+					return;
+				}
+				var wb_url = location.loc.replace("/", "");
+				var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
+				board = wb_url;
+				socket.join(wb_url);
+				socket.emit('joined');
+
+				writeBoardModels(randomnString, socket);
+				writeShapeModels(wb_url, socket);
+			});
+			socket.on("setContainer", function (location, data) {
+				var wb_url = location.replace("/", "");
+				var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
+				findInBoardModelforSetContainer(randomnString, wb_url, data);
+			});
+			socket.on('eventDraw', function (location, data) {
+				var url = location.replace("/", "");
+				drawOnBoard(url, data, socket);
+			});
+			socket.on('hello', function (name) { // user joins say hello to all
+				gname = name;
+				console.log('broadcasting to all');
+				socket.broadcast.to(name).emit('hello',name);
+			});
+			socket.on('disconnect', function () {
+				socket.broadcast.to(gname).emit('bye',gname);
+			});
+			socket.on('nameChanged', function (data){
+				socket.broadcast.to(board).emit('nameChanged',data);
+				gname = data.newName;
+			});
 		});
 	}
-}
+};
 
 var writeBoardModels = function(randomStr, socket) {
 	var BoardModel = collaboration.boardModel;

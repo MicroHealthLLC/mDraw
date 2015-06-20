@@ -150,8 +150,12 @@ exports.boards = {
                     var rnum = Math.floor(Math.random() * chars.length);
                     randomstring += chars.substring(rnum, rnum + 1);
                 }
+                
+                if (req.body.whiteboardName === '') {
+                  req.body.whiteboardName = randomstring;
+                }
                 var data = {
-                    url:randomstring,
+                    url:req.body.whiteboardName,
                     container: req.body.container,
                     canvasWidth: req.body.canvasWidth,
                     canvasHeight: req.body.canvasHeight,
@@ -170,9 +174,9 @@ exports.boards = {
                         console.log('link user');
                         //this is used to autoremove boards in 1 month.
                         //The database should be set up to emit expire events with --notify-keyspace-events Ex # E = Keyevent events, x = Expire events
-                        self.getClient().set(randomstring, whiteBoard.id, function(){
+                        self.getClient().set(req.body.whiteboardName, whiteBoard.id, function(){
                             scheduler.schedule({
-                                key: randomstring,
+                                key: req.body.whiteboardName,
                                 expire: expirationTime,
                                 handler: boardRemoveHandler
                                 },
@@ -186,7 +190,7 @@ exports.boards = {
 
                         //userObj.linkBoard(whiteBoard, userID, false);
                         res.writeHead(302, {
-                            'Location':randomstring
+                            'Location':req.body.whiteboardName
                         });
                         res.end();
 
