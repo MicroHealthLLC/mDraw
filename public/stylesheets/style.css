@@ -959,7 +959,7 @@ dashboardLeftThumbnail {
 	color:#B8C2CB;text-decoration:none;
 }
 .user-image{background:url('../images/userprofile_bg.png') no-repeat;width:42px; height:53px;margin:8px 5px;}
-.board-name{-moz-transform:rotate(90deg);-moz-transform-origin: right;-webkit-transform: rotate(90deg);-webkit-transform-origin-x: right;font-size: 22px; color:#E3E6E9;letter-spacing:1px;width:auto;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;height: 26px; background-color: #464D57; position:absolute; top:250px; right:27px}
+.board-name{-moz-transform:rotate(90deg);-moz-transform-origin: right;-webkit-transform: rotate(90deg);-webkit-transform-origin-x: right;font-size: 22px; color:#E3E6E9;letter-spacing:1px;width:auto;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;height: 26px; background-color: #464D57; position:absolute; top:30px; right:27px}
 .thumbnailText .success{color:#10B832;}
 .thumbnailText .error{color:red;}
 .menu-holder{border-top: 1px groove #0E1215;width:52px;text-align:center;padding:3px 0;cursor:pointer;color:#B8C2CB;position:relative;}

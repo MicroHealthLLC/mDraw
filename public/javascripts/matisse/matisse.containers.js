@@ -31,26 +31,29 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util", "matisse.layout
 			}
 			html += containerHolder;
 			onButtonClick = function () {
+				var whiteboard_name = window.location.pathname.replace('/boards/', '');
+		    console.log(whiteboard_name);
+		    $('#boardName').text(whiteboard_name);
 				thisRef.onOkClick();
-			}
+			};
 			$(document.getElementById('result')).append(html);
 			// create Layouts list
 			layouts.createLayoutsList();
-			
+
 			// create a field for canvas width
 			var canvasWidth = "<div style='padding:15px'><b style='font-size: 14px'>Canvas Width: </b><input id='canvasWidth' type = 'text' value='1024'><b style='font-size: 14px'>px</b></div>";
 			$(document.getElementById('result')).append(canvasWidth);
 			$('#canvasWidth').val(matisse.containers[$('#containers').val()].width);
-			
+
 			// create a field for canvas height
 			var canvasHeight = "<div style='padding:15px'><b style='font-size: 14px'>Canvas Height: </b><input id='canvasHeight' type = 'text' value='768'><b style='font-size: 14px'>px</b></div>";
 			$(document.getElementById('result')).append(canvasHeight);
 			$('#canvasHeight').val(matisse.containers[$('#containers').val()].height);
-			
+
 			// create an OK button on click of which provided container, layout and canvas width and height are rendered
 			var btndiv = "<div style='padding:15px'><br><input type='button' value='Ok' onclick=onButtonClick() /></div>";
 			$(document.getElementById('result')).append(btndiv);
-			
+
 			// update the canvas width and height fields with those of the selected container.
 			$('#containers').change(function() {
 				$('#canvasWidth').val(matisse.containers[$('#containers').val()].width);
@@ -65,8 +68,8 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util", "matisse.layout
 			this.canvasHeight = document.getElementById('canvasHeight').value;
 			this.setContainer(this.containerName, 'new');
 			var val = document.getElementById('layouts').value;
-			if (val == "uploadLayout") {					
-				$(document.getElementById("result")).append('<input id = "loadLayout" type="file" />');					
+			if (val == "uploadLayout") {
+				$(document.getElementById("result")).append('<input id = "loadLayout" type="file" />');
 			}
 			matisse.comm.sendContainerInfo({
 				action: "setContainer",
@@ -90,7 +93,7 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util", "matisse.layout
 			if (contObj.src) {
 				var imagsrc = '/images/'+contObj.src;
 				$('#containerBody').css('background-image', 'url(' + imagsrc + ')');
-			}			
+			}
 			$('#containerBody').css('position', 'relative');
 			var cssObj = {
 				'position': 'relative',
@@ -106,16 +109,14 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util", "matisse.layout
 				closePopup('popUpDiv');
 				closePopup('blanket');
 				var val = document.getElementById('layouts').value;
-				if (val == "uploadLayout") {					
-					matisse.layoutURL = document.getElementById("loadLayout").files[0];					
+				if (val == "uploadLayout") {
+					matisse.layoutURL = document.getElementById("loadLayout").files[0];
 				}
 				layouts.setLayoutType(val);
-			}	
+			}
         $('#loading').hide();
         $('#containerBody').css('visibility', 'visible');
 		}
-		 
+
 	};
 });
-
-

@@ -28,7 +28,7 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
 				containers.canvasWidth = data.canvasWidth;
 				containers.canvasHeight = data.canvasHeight;
 				containers.setContainer(matisse.containerName, 'old', containers.canvasWidth, containers.canvasHeight);
-			    $('#boardName').text(data.name);
+          $('#boardName').text(data.name);
 			    $('#boardName').css("top",$('#boardName').width()+20);
 				return;
 			}
