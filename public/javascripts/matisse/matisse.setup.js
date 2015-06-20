@@ -10,9 +10,8 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
     "use strict";
 	//Dom Ready function
 	$(function () {
-		var serverURL = 'http://'+location.host,//change it to server ip or local ip for testing from other machines
+		var serverURL = window.location.origin,//change it to server ip or local ip for testing from other machines
       comm = new Comm(serverURL);
-      console.log(serverURL);
 		/**
          * Initializes the application with the containers and layout set by user or asks your to choose them if not set yet
          * @method comm.onContainerDraw

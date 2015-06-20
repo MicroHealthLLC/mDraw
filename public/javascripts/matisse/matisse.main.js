@@ -77,8 +77,6 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             $('#save-png').click(mActionBar.handlePngDownload);
             $('#save-svg').click(mActionBar.handleSvgDownload);
 
-            console.log(matisse.containers[matisse.containerName]);
-
             if(matisse.containers[matisse.containerName] === undefined) {
                 $('#showImageIcon').click(mActionBar.handleRawAction);
             } else {
