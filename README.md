@@ -47,7 +47,7 @@ from research to concept mapping. Currently, the server acts as a message broadc
 1. Download and Install the current version for [node] (http://nodejs.org)
 2. Downlaod and Install Redis Server
     * For [Windows](https://github.com/dmajkic/redis/downloads)
-    * For Ubuntu]  - sudo apt-get install redis-server
+    * For Ubuntu - sudo apt-get install redis-server
     * For [Mac] (http://redis.io/download)
 3. On the root folder install node module dependencies
   * **npm install**
