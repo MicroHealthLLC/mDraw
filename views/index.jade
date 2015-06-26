@@ -23,21 +23,29 @@ html
             $(document).ready(function () {
                 setTimeout(resizeOrReadyHandler, 100);
             });
-    body(style="background-color:#666")
-      div(class='container mainDrawing')
-        div(class='col-lg-12 ')
-          div.col-lg-12(style="text-align: center;margin-top: 20px;padding-bottom:31px;")
-            <!-- comments -->
-            form(name='whiteboard', id='whiteboard', class='form-horizontal', method='post', action='/boards/')
-              .col-lg-12
-                button.btn.btn-large.btn-success(type='submit', style="margin-bottom:5px;width: 300px;height: 50px;border-radius:0") NEW DRAWING
-              .col-lg-12
-                span or Create/Open a Drawing with the name
-              .col-lg-12
-                .input-group
-                  input.form-control(name='whiteboardName', type='text', id="name", placeholder="Name")
-                  span.input-group-btn
-                    button.btn.btn-default(type='submit', style="padding:12px;border-radius:0", id="createWhiteboard") OK
+    body(style="background-color:#d88f40 !important")
+      #wrapper(class='container mainDrawing')
+        #inner
+          #button(onclick='go2Random()') NEW DRAW
+          #label(data-l10n-id='index.createOpenPad')
+            | or create/open a Spread Sheet with the name:
+          form(name='whiteboard', id='whiteboard', method='post', action='/boards/')
+            input#name(name='whiteboardName', type='text', placeholder="Name")
+            button(type='submit') OK
+      //- div(class='container mainDrawing')
+      //-   div(class='col-lg-12 ')
+      //-     div.col-lg-12(style="text-align: center;margin-top: 20px;padding-bottom:31px;")
+      //-       <!-- comments -->
+      //-       form(name='whiteboard', id='whiteboard', class='form-horizontal', method='post', action='/boards/')
+      //-         .col-lg-12
+      //-           button.btn.btn-large.btn-success(type='submit', style="margin-bottom:5px;width: 300px;height: 50px;border-radius:0") NEW DRAWING
+      //-         .col-lg-12
+      //-           span or Create/Open a Drawing with the name
+      //-         .col-lg-12
+      //-           .input-group
+      //-             input.form-control(name='whiteboardName', type='text', id="name", placeholder="Name")
+      //-             span.input-group-btn
+      //-               button.btn.btn-default(type='submit', style="padding:12px;border-radius:0", id="createWhiteboard") OK
 script(type='text/javascript', src='/javascripts/thirdparty/bootstrap/bootstrap-carousel.js')
 script(type='text/javascript', src='/javascripts/thirdparty/bootstrap/bootstrap-modal-dialog.js')
 script(type='text/javascript', src='/javascripts/matisse/showAll.js')

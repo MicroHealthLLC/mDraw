@@ -36,7 +36,7 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (mati
 		 * @param paletteName
 		 */
 		createPallette: function (paletteName) {
-		
+
 			var paletteName = matisse.palette[paletteName].collectionName,shapesObj,html="",i,shape,shapeName,shapeDisplayName,shapeHolder;
 			ui.updateAccordian(paletteName);
 			shapesObj = matisse.palette[paletteName];
@@ -45,16 +45,40 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (mati
 				shape = shapesObj.shapes[i];
 				shapeName = shape.name;
 				shapeDisplayName = shape.displayName;
-				
-				if(shapeName == "importimage") continue;
 
-				shapeHolder = '<div class="shape-holder" data-shape="'+shapeName+'"><div class="basic-shape s-'+shapeName+'"></div>';
-				shapeHolder += '<div class="shape-label">' + shapeDisplayName + '</div></div>';
+				if(shapeName == "importimage") continue;
+        if (shape.name === 'Friends') {
+          shapeHolder = '<div style="position:relative" class="option-friends" data-shape="' + shapeName + '">' + '<div class="m-icon m-friends s-"' + shapeName + '></div>';
+          shapeHolder +=  '<div class="shape-label">' + shapeDisplayName + '</div>';
+          shapeHolder +=    '<div class="m-submenu-list all" style="position:relative;z-index:1;top: -50px;left:50px;display: block">';
+          shapeHolder +=      '<div>';
+          shapeHolder +=        '<label id="myUserName">';
+          shapeHolder +=          'My Name:';
+          shapeHolder +=          '<input type="text">';
+          shapeHolder +=        '</label>';
+          shapeHolder +=      '</div>';
+          shapeHolder +=      '<span class="menu-arrow"></span>';
+          shapeHolder +=      '<ul class="menu-list">';
+          shapeHolder +=        '<li><em>Home alone!</em></li>';
+          shapeHolder +=      '</ul>';
+          shapeHolder +=    '</div>';
+          shapeHolder +=    '<div class="m-submenu-list notify">';
+          shapeHolder +=      '<span class="menu-arrow"></span>';
+          shapeHolder +=      '<ul class="menu-list"></ul>';
+          shapeHolder +=    '</div>';
+          shapeHolder +=  '</div>';
+          console.log($('#friendsicon').html());
+          shapeHolder = $('#friendsicon').html();
+        } else {
+          shapeHolder = '<div class="shape-holder" data-shape="'+shapeName+'"><div class="basic-shape s-'+shapeName+'"></div>';
+  				shapeHolder += '<div class="shape-label">' + shapeDisplayName + '</div></div>';
+        }
+
+
 				html += shapeHolder;
 			}
-			
-			$("#"+paletteName).append(html);
 
+			$("#"+paletteName).append(html);
 		},
 		/**
 		 *  Handles the click events on Shape
@@ -65,7 +89,7 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (mati
 			var shapeEle = $(e.target).closest(".shape-holder"),shapeSelected,obj;
 			if(shapeEle!=null){
 				ui.resetShapeSelection();
-				$(shapeEle).addClass("shape-selected");				
+				$(shapeEle).addClass("shape-selected");
 				matisse.$currShape = shapeEle;
 				canvas.isSelectMode = false;
 				shapeSelected = $(shapeEle).data().shape;
@@ -87,10 +111,10 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (mati
 					canvas.isDrawingMode = true;
 					return;
 				}
-		
+
 				}
 			}
+
+
 		};
 });
-
-

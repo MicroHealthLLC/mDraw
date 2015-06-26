@@ -1,10 +1,38 @@
+```
 # A shared white board
+```
+- - - -
 
 ### About
+The app is a Realtime Whiteboard Collaborative Tool for discussion for any project
+from research to concept mapping. Currently, the server acts as a message broadcaster using socket.io, i.e. it receives a message from the client and sends it out to all other clients.It consist of 3 parts that you can choose:
 
-This is a express.js app with socket.io plugin.
-
-Currently, the server only acts as a message broadcaster, i.e. it receives a message from the client and sends it out to all other clients.
+* Shapes
+  * Element
+    * Rectangle
+    * Circle
+    * Triangle
+    * Text
+    * Line
+    * Path
+* Controls
+  * Element
+    * Label
+    * Button
+    * Text Box
+    * Check Box
+    * Radio Button
+    * SelectBox
+    * List
+    * Password
+    * Scroll Bar
+* Componets
+  * Element
+    * Table
+    * Div
+    * Image
+    * Slider
+    * Progress Bar
 
 ### Client API
 The com.js library provides for an abstraction over the internal messaging API.
@@ -58,4 +86,3 @@ for twitter.
 in the root folder.
 
 Now you can open the http://thematisse.org:8000/ to open the matisse home page.
-

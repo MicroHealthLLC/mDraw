@@ -1,7 +1,7 @@
 /* fabric related methods */
 
 define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", "matisse.events", "matisse.action-bar"], function (matisse, util, properties, ui, events, actionBar) {
-    
+
     'use strict';
 
     return {
@@ -14,7 +14,7 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
             observe('object:scaling');
             observe('object:resizing');
             observe('selection:created');
-            //bar shift click #171 
+            //bar shift click #171
             stopShiftClick();
             //bar negative resize #158
             stopNegativeDimension();
@@ -79,7 +79,7 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                 properties.updatePropertyPanel(obj); // Update property values for this object in property panel
                 util.quickMenuHandler(obj);
                 break;
-            case "selection:created": 
+            case "selection:created":
                 util.quickMenuGroupHandler(canvas.getActiveGroup());
                 break;
             case "selection:cleared":
@@ -94,8 +94,9 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                 ui.resetIconSelection(); // Reset drawing icon selection
                 matisse.drawShape = false;
                 document.getElementById("c").style.cursor = 'default';
-                var pathObj = e.path; // get path object and assign parameters
-                pathObj.uid = util.uniqid(); // Assign a Unique ID for this object
+                var pathObj = e.memo.path; // get path object and assign parameters
+                var uid = util.uniqid();
+                pathObj.uid = uid; // Assign a Unique ID for this object
                 pathObj.name = "drawingpath";
                 pathObj.palette = matisse.paletteName;
                 matisse.comm.sendDrawMsg({ // Notify server about this drawing path to draw it on other users canvas
@@ -189,7 +190,7 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                     scaleWidth = scalingWidth * scalingObj.scaleX;
                     scalingObj.left = curLeft - (scaleWidth - curWidth)/2;
                 }
-                break;      
+                break;
             }
         });
     }
@@ -242,17 +243,17 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
         }
         return null;
     }
-    
+
     /**
-     *  Show Align guild line when objects align   
+     *  Show Align guild line when objects align
      *  @method  showAlginLine
      *  @param obj, position, operator
      */
     function showAlginLine(obj, position, operator) {
         var vLine = matisse.vLine;
         var hLine = matisse.hLine;
-        // 'LEFT' + 'plus' means left of object is aligned with left of other object  
-        // 'LEFT' + 'minus' means left of object is aligned with right of other object  
+        // 'LEFT' + 'plus' means left of object is aligned with left of other object
+        // 'LEFT' + 'minus' means left of object is aligned with right of other object
         switch (position) {
         case "left":
             (operator === "plus") ? vLine.set('left', obj.left + (obj.width * obj.scaleX) / 2) : vLine.set('left', obj.left - (obj.width * obj.scaleX) / 2);

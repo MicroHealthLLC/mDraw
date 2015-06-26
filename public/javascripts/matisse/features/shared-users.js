@@ -68,9 +68,9 @@ define(["matisse"],
            var friendsView = function() {
                function setList(ul, friends) {
                    ul.empty();
-                   $.each(friends, function(i, f) { 
-                              ul.append('<li>' + f + '</li>'); 
-                          });                  
+                   $.each(friends, function(i, f) {
+                              ul.append('<li>' + f + '</li>');
+                          });
                }
 
                function notify(msg) {
