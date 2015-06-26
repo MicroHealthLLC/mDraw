@@ -1,6 +1,4 @@
-```
 # A shared white board #
-```
 - - - -
 
 ### About ###
