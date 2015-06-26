@@ -1,4 +1,4 @@
-# mDraw - Realtime WhiteBoard Collaboration Tool #
+# mDraw - Realtime Collaboration Tool #
 - - - -
 
 ### About ###
