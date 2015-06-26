@@ -1,9 +1,9 @@
 ```
-# A shared white board
+# A shared white board #
 ```
 - - - -
 
-### About
+### About ###
 The app is a Realtime Whiteboard Collaborative Tool for discussion for any project
 from research to concept mapping. Currently, the server acts as a message broadcaster using socket.io, i.e. it receives a message from the client and sends it out to all other clients.It consist of 3 parts that you can choose:
 
