@@ -46,9 +46,9 @@ from research to concept mapping. Currently, the server acts as a message broadc
 ### Running the App
 1. Download and Install the current version for [node] (http://nodejs.org)
 2. Downlaod and Install Redis Server
-    > * For [Windows](https://github.com/dmajkic/redis/downloads)
-    > * For Ubuntu]  - sudo apt-get install redis-server
-    > * For [Mac] (http://redis.io/download)
+    * For [Windows](https://github.com/dmajkic/redis/downloads)
+    * For Ubuntu]  - sudo apt-get install redis-server
+    * For [Mac] (http://redis.io/download)
 3. On the Root Folder install node module dependencies
     > npm install
 4. Run the App
