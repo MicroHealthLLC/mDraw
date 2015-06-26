@@ -34,54 +34,24 @@ from research to concept mapping. Currently, the server acts as a message broadc
 
 ### Client API
 > sendDrawMsg = function call();
-  *** responsible for sending data and coordinates in the html canvas from the client to
-      the server. Passing it to the server function eventDraw.
-  ***
+    responsible for sending data and coordinates in the html canvas from the client to
+    the server. Passing it to the server function eventDraw.
 
-See the views/index.jade for example written in [jade](http://jade-lang.com/) templating engine.
+### Frameworks/Technologies Used
+  * NodeJs
+  * ExpressJs
+  * Redis
+  * Jade
 
-See index.html in this directory for a vanilla html example.
+### Running the App
+1) Download and Install the current version for [node] (http://nodejs.org)
+2) Downlaod and Install Redis Server
+    > * For [Windows](https://github.com/dmajkic/redis/downloads)
+    > * For Ubuntu]  - sudo apt-get install redis-server
+    > * For [Mac] (http://redis.io/download)
+3) On the Root Folder install node module dependencies
+    > npm install
+4) Run the App
+    > node app.js
 
-### How to Run this app?
-1) To run this application you need to install [node.js](http://nodejs.org) and
-   also install npm.
-
-2) Install Redis Server
-
->
->   a. for windows redis exe https://github.com/dmajkic/redis/downloads
->
->   b. for ubuntu use - sudo apt-get install redis-server
->
->
-
-3) Install all node module dependencies for matisse using -
-
->
->   $npm install -d
->
-
-4) Add the following line to "hosts" file
-
->
-> 127.0.0.1		thematisse.org
->
-
-5) Change the "localhost" to your local machine ip in public/javascripts/matisse/matisse.setup.js
-
->
-> var socket = io.connect('http://localhost'); //change it to server ip or local ip for testing from other machines
->
-
-6) Everyauth package has been included in the git repository since the original everyauth package version 0.2.28 contains the deprecated url
-for twitter.
-
-7) Then you can run
-
->
-> $ node app.js
->
-
-in the root folder.
-
-Now you can open the http://thematisse.org:8000/ to open the matisse home page.
+**Now you can open the http://localhost:8000 to open the home page.**
