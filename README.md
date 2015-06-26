@@ -33,9 +33,10 @@ from research to concept mapping. Currently, the server acts as a message broadc
     * Progress Bar
 
 ### Client API
-The com.js library provides for an abstraction over the internal messaging API.
-
-It has one method 'sendDrawMsg' to send data from the client. To receive data you must implement matisse.onDrawEvent.
+> sendDrawMsg = function call();
+  *** responsible for sending data and coordinates in the html canvas from the client to
+      the server. Passing it to the server function eventDraw.
+  ***
 
 See the views/index.jade for example written in [jade](http://jade-lang.com/) templating engine.
 
