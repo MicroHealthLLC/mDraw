@@ -1,4 +1,4 @@
-# A shared white board #
+# Realtime WhiteBoard Collaboration Tool #
 - - - -
 
 ### About ###
