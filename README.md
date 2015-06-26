@@ -44,14 +44,14 @@ from research to concept mapping. Currently, the server acts as a message broadc
   * Jade
 
 ### Running the App
-1) Download and Install the current version for [node] (http://nodejs.org)
-2) Downlaod and Install Redis Server
+1. Download and Install the current version for [node] (http://nodejs.org)
+2. Downlaod and Install Redis Server
     > * For [Windows](https://github.com/dmajkic/redis/downloads)
     > * For Ubuntu]  - sudo apt-get install redis-server
     > * For [Mac] (http://redis.io/download)
-3) On the Root Folder install node module dependencies
+3. On the Root Folder install node module dependencies
     > npm install
-4) Run the App
+4. Run the App
     > node app.js
 
 **Now you can open the http://localhost:8000 to open the home page.**
