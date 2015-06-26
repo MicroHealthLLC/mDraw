@@ -49,9 +49,9 @@ from research to concept mapping. Currently, the server acts as a message broadc
     * For [Windows](https://github.com/dmajkic/redis/downloads)
     * For Ubuntu]  - sudo apt-get install redis-server
     * For [Mac] (http://redis.io/download)
-3. On the Root Folder install node module dependencies
-> npm install
+3. On the root folder install node module dependencies
+  **npm install**
 4. Run the App
-> node app.js
+  **node app.js**
 
-**Now you can open the http://localhost:8000 to open the home page.**
+***Now you can open the http://localhost:8000 to open the home page.***
