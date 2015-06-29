@@ -86,7 +86,7 @@ application = (function () {
 
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
-    app.use(favicon(__dirname + '/public/images/favicon.ico'));
+    app.use(favicon(__dirname + '/public/favicon.ico'));
     app.use('/stylesheets', express.static(__dirname + '/public/stylesheets'));
     app.use('/javascripts', express.static(__dirname + '/public/javascripts'));
     app.use('/images', express.static(__dirname + '/public/images'));
