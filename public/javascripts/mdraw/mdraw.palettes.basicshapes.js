@@ -5,7 +5,7 @@
  * About this : To set the properties of the object with the received object
  */
 
-require(["matisse", "matisse.main", "matisse.palettes", "matisse.palettes.properties", "matisse.util"], function (matisse, main, palettes, objproperties, util) {
+require(["mdraw", "mdraw.main", "mdraw.palettes", "mdraw.palettes.properties", "mdraw.util"], function (mdraw, main, palettes, objproperties, util) {
 	"use strict";
 	var updateProperties = function (obj, recvdObj) {
 		obj.left = recvdObj.left;

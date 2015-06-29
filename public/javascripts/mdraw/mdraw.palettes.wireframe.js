@@ -6,7 +6,7 @@
  */
 
 
-define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.properties"], function (matisse, palettes, util, objproperties) {
+define(["mdraw", "mdraw.palettes", "mdraw.util", "mdraw.palettes.properties"], function (mdraw, palettes, util, objproperties) {
 	"use strict";
 	/**
 	 * To load controls objects. group the objects using pathgroup
@@ -62,7 +62,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 			} else {
 				objct.paths[2].stroke = '#ffffff';
 			}
-			matisse.comm.sendDrawMsg({
+			mdraw.comm.sendDrawMsg({
 				action: "modified",
 				args: [{
 					uid: objct.uid,
@@ -86,7 +86,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 			} else {
 				objct.paths[1].fill = '#eeeeee';
 			}
-			matisse.comm.sendDrawMsg({
+			mdraw.comm.sendDrawMsg({
 				action: "modified",
 				args: [{
 					uid: objct.uid,
@@ -182,16 +182,16 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 		txtbox.onkeyup = function (e) {			
 			if (canvas.getActiveObject()) {
 				var pathGroup = addItemsToList(canvas.getActiveObject(), txtbox.value);			
-				matisse.comm.sendDrawMsg({
+				mdraw.comm.sendDrawMsg({
 					action: "modified",
 					args: [{
 						uid: pathGroup.uid,
 						object: pathGroup
 					}]
 				});	
-				matisse.isUpdatingProperties = true;
+				mdraw.isUpdatingProperties = true;
 				canvas.setActiveObject(pathGroup);
-				matisse.isUpdatingProperties = false;
+				mdraw.isUpdatingProperties = false;
 			}
 		};		
 	};
@@ -260,7 +260,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						obj.height = height;
 						obj.paths[0].width = width;
 						obj.paths[0].height = height;
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,
@@ -387,7 +387,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						(width - obj.width) > 0 ? obj.left += (width - obj.width) / 2 : obj.left = obj.left;
 						obj.width = width;
 						obj.paths[0].width = width;
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,
@@ -510,7 +510,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						obj.paths[0].width = width;
 						obj.paths[0].height = height;
 						obj.paths[1].left = -width / 2 + obj.paths[1].getWidth() / 2 + 5;
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,
@@ -647,7 +647,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						obj.paths[2].points[0].x = checkbox_left + 3;
 						obj.paths[2].points[1].x = checkbox_left + 6;
 						obj.paths[2].points[2].x = checkbox_left + 11;
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,
@@ -794,7 +794,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						obj.paths[1].left = obj.paths[0].left;
 						var text_left = obj.paths[0].left + (2 * obj.paths[1].radius) + 15;
 						obj.paths[2].left = -(-obj.paths[2].getWidth() / 2 - text_left);
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,
@@ -935,7 +935,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						obj.paths[2].points[1].x = wdth/2 - 6.5;
 						obj.paths[2].points[2].x = wdth/2 - 10.5;
 						obj.paths[3].left = -wdth/2 + 15 + obj.paths[3].getWidth()/2;
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,
@@ -1173,7 +1173,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 						obj.height = height;
 						obj.paths[0].width = width;
 						obj.paths[0].height = height;
-						matisse.comm.sendDrawMsg({
+						mdraw.comm.sendDrawMsg({
 							action: "modified",
 							args: [{
 								uid: obj.uid,

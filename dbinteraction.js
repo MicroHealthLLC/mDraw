@@ -13,7 +13,7 @@ iShell = {};
     var fs = require('fs');
 
     redisClient.select(4);
-    Nohm.setPrefix('matisse'); //setting up app prefix for redis
+    Nohm.setPrefix('mdraw'); //setting up app prefix for redis
     Nohm.setClient(redisClient);
 
     iShell['bm'] = BoardModel, iShell['sm'] = ShapesModel, iShell['um'] = UserModel;
@@ -58,13 +58,13 @@ iShell = {};
             knownCommands['help'] = getHelp;
 
             knownCommands['gods'] = function() { // show gods
-                redisClient.smembers('matisse:gods', redis.print);
+                redisClient.smembers('mdraw:gods', redis.print);
             };
             knownCommands['god'] = function(name) { // add god
-                redisClient.sadd('matisse:gods', name, knownCommands['gods']);
+                redisClient.sadd('mdraw:gods', name, knownCommands['gods']);
             };
             knownCommands['ungod'] = function(name) { // remove god
-                redisClient.srem('matisse:gods', name, knownCommands['gods']);
+                redisClient.srem('mdraw:gods', name, knownCommands['gods']);
             };
 
             getHelp();

@@ -1,6 +1,6 @@
 /* fabric related methods */
 
-define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", "matisse.events", "matisse.action-bar"], function (matisse, util, properties, ui, events, actionBar) {
+define(["mdraw", "mdraw.util", "mdraw.palettes.properties", "mdraw.ui", "mdraw.events", "mdraw.action-bar"], function (mdraw, util, properties, ui, events, actionBar) {
 
     'use strict';
 
@@ -62,7 +62,7 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                     return;
                 }
                 var obj = e.memo.target; // Get currently modified object
-                matisse.comm.sendDrawMsg({ // Notify about this to server
+                mdraw.comm.sendDrawMsg({ // Notify about this to server
                     action: "modified",
                     name: obj.name,
                     palette: obj.palette,
@@ -74,8 +74,8 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                 });
                 //store original state information or undo/redo actions
                 actionBar.stateUpdated(obj, "modified");
-                matisse.hLine.set('top', -10); // hide horizontal alignment guide line
-                matisse.vLine.set('left', -10); // hide vertical alignment guide line
+                mdraw.hLine.set('top', -10); // hide horizontal alignment guide line
+                mdraw.vLine.set('left', -10); // hide vertical alignment guide line
                 properties.updatePropertyPanel(obj); // Update property values for this object in property panel
                 util.quickMenuHandler(obj);
                 break;
@@ -84,7 +84,7 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                 break;
             case "selection:cleared":
                 $('#propdiv').dialog("close");
-                if(!matisse.isUpdatingProperties)
+                if(!mdraw.isUpdatingProperties)
                     util.hideQuickMenuDiv();
                 util.hideQuickMenuGroupDiv();
                 break;
@@ -92,16 +92,16 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                 canvas.isSelectMode = true;
                 canvas.isDrawingMode = false; // Set drawing mode to false
                 ui.resetIconSelection(); // Reset drawing icon selection
-                matisse.drawShape = false;
+                mdraw.drawShape = false;
                 document.getElementById("c").style.cursor = 'default';
                 var pathObj = e.memo.path; // get path object and assign parameters
                 var uid = util.uniqid();
                 pathObj.uid = uid; // Assign a Unique ID for this object
                 pathObj.name = "drawingpath";
-                pathObj.palette = matisse.paletteName;
-                matisse.comm.sendDrawMsg({ // Notify server about this drawing path to draw it on other users canvas
+                pathObj.palette = mdraw.paletteName;
+                mdraw.comm.sendDrawMsg({ // Notify server about this drawing path to draw it on other users canvas
                     action: 'drawpath',
-                    palette: matisse.paletteName,
+                    palette: mdraw.paletteName,
                     args: [{
                         uid: pathObj.uid,
                         left: pathObj.left,
@@ -110,15 +110,15 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                         height: pathObj.height,
                         path: pathObj.path,
                         name: pathObj.name,
-                        palette: matisse.paletteName,
+                        palette: mdraw.paletteName,
                         stroke: pathObj.stroke
                     }]
                 });
-                matisse.xPoints = []; // nullify x points array
-                matisse.yPoints = []; // nullify x points array
+                mdraw.xPoints = []; // nullify x points array
+                mdraw.yPoints = []; // nullify x points array
                 break;
             case 'object:selected':
-                if(matisse.isUpdatingProperties) return;
+                if(mdraw.isUpdatingProperties) return;
                 var selectedObj = e.memo.target; // Get selected object reference
                 // Check if it is a group of objects and dont perform any action
                 if (canvas.getActiveGroup()) { // TODO
@@ -142,8 +142,8 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
                 var resizingObj = e.memo.target;
                 var props = [];
                 props.push(resizingObj);
-                if (matisse.palette[resizingObj.palette]) {
-                    matisse.palette[resizingObj.palette].shapes[resizingObj.name].resizeAction ? matisse.palette[resizingObj.palette].shapes[resizingObj.name].resizeAction.apply(null, props) : null;
+                if (mdraw.palette[resizingObj.palette]) {
+                    mdraw.palette[resizingObj.palette].shapes[resizingObj.name].resizeAction ? mdraw.palette[resizingObj.palette].shapes[resizingObj.name].resizeAction.apply(null, props) : null;
                 }
                 break;
             case 'object:scaling':
@@ -198,8 +198,8 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
     /* Get all objects from canvas and check if borders of any of them matches with active object borders
      */
     function checkAlign(obj) {
-        var hLine = matisse.hLine,
-        vLine = matisse.vLine;
+        var hLine = mdraw.hLine,
+        vLine = mdraw.vLine;
         hLine.set('top', -10);
         vLine.set('left', -10);
         var movingObjLeft = Math.round(obj.left - (obj.width * obj.scaleX) / 2),
@@ -250,8 +250,8 @@ define(["matisse", "matisse.util", "matisse.palettes.properties", "matisse.ui", 
      *  @param obj, position, operator
      */
     function showAlginLine(obj, position, operator) {
-        var vLine = matisse.vLine;
-        var hLine = matisse.hLine;
+        var vLine = mdraw.vLine;
+        var hLine = mdraw.hLine;
         // 'LEFT' + 'plus' means left of object is aligned with left of other object
         // 'LEFT' + 'minus' means left of object is aligned with right of other object
         switch (position) {

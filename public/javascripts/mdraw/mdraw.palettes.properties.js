@@ -4,7 +4,7 @@
  * Time: 04:19 PM
  * About this : Utility to apply specified properties to the palette 
  */
-define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers", "matisse.action-bar"], function (matisse, util, ui, toolHandlers, actionBar) {
+define(["mdraw", "mdraw.util", "mdraw.ui", "mdraw.toolbuttons.handlers", "mdraw.action-bar"], function (mdraw, util, ui, toolHandlers, actionBar) {
 	return {
 		_applyProperties: function (properties) {
 			/*Allow only string of characters, no numbers */
@@ -46,11 +46,11 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 				}
 				/* when focus is on any input boxes handle drawing element updates*/
 				$(":input").focus(function () {
-					matisse.focusInput = ''; /* use this value for color picker to apply color to object with this id */
+					mdraw.focusInput = ''; /* use this value for color picker to apply color to object with this id */
 					var id = this.id;
 					/* when id is either fill or stroke then show color picker */
 					if (id === 'fill' || id === 'stroke') {
-						matisse.focusInput = id;
+						mdraw.focusInput = id;
 						var prop = $(this).position();
 						$('#colorpicker').show();
 						var ht = $propTableDiv.height();
@@ -61,7 +61,7 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 				});
 				/* Hide color picker when focus is lost from either fill or stroke input boxes */
 				$(":input").blur(function () {
-					matisse.focusInput = '';
+					mdraw.focusInput = '';
 					var id = this.id;
 					if (id === 'fill' || id === 'stroke') {
 						$('#colorpicker').hide();
@@ -96,16 +96,16 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 						  canvas.add(img);
 						  console.log(img);
 						  canvas.renderAll();
-						  matisse.comm.sendDrawMsg({
+						  mdraw.comm.sendDrawMsg({
 								action: "modified",
 								args: [{
 									uid: img.uid,
 									object: img
 								}]
 							});
-						  matisse.isUpdatingProperties = true;
+						  mdraw.isUpdatingProperties = true;
 						  canvas.setActiveObject(img);
-						  matisse.isUpdatingProperties = false;
+						  mdraw.isUpdatingProperties = false;
 							util.quickMenuHandler(img);
 						});
 						return;
@@ -113,7 +113,7 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 					canvas.renderAll();
 					canvas.getActiveObject().setCoords();
 					/* Notify server about this object property change */
-					matisse.comm.sendDrawMsg({
+					mdraw.comm.sendDrawMsg({
 						action: "modified",
 						args: [{
 							uid: actObj.uid,
@@ -125,19 +125,19 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 			});
 			var colorPicker = $.farbtastic("#colorpicker");
 			colorPicker.linkTo(function (color) {
-				if (matisse.focusInput === "") {
+				if (mdraw.focusInput === "") {
 					return;
 				}
 				/* get current selected object from canvas */
 				var obj = canvas.getActiveObject();
 				/*set the object color with this selected color*/
-				obj.set(matisse.focusInput, color);
+				obj.set(mdraw.focusInput, color);
 				/* update color value of color input box in the property panel */
-				$('#' + matisse.focusInput).val(color);
+				$('#' + mdraw.focusInput).val(color);
 				/* update background color of the color input box in the property panel*/
-				$('#' + matisse.focusInput).css('background', color);
+				$('#' + mdraw.focusInput).css('background', color);
 				/* Notify server about this change */
-				matisse.comm.sendDrawMsg({
+				mdraw.comm.sendDrawMsg({
 					action: "modified",
 					args: [{
 						uid: obj.uid,
@@ -157,7 +157,7 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 		 */
 		updatePropertyPanel: function (obj) {
 			/* If there is no object with this paletteName no further action*/
-			if (matisse.palette[matisse.paletteName] === null) {
+			if (mdraw.palette[mdraw.paletteName] === null) {
 				return;
 			}
 			/* If group of objects are selected no further action*/
@@ -167,7 +167,7 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 			/* make sure object , name and palette values are available*/
 			if (obj && obj.name && obj.palette) {
 				/* get default properties and assign it to properties variable */
-				var properties = util.getDefaultDataFromArray(matisse.palette[matisse.paletteName].shapes[obj.name].properties);
+				var properties = util.getDefaultDataFromArray(mdraw.palette[mdraw.paletteName].shapes[obj.name].properties);
 				/* set default property to corresponding input box in the property panel*/
 				jQuery.each(properties, function (i, value) {
 					$('#' + i).val(obj[i]);
@@ -186,16 +186,16 @@ define(["matisse", "matisse.util", "matisse.ui", "matisse.toolbuttons.handlers",
 			if (obj.palette && obj && obj.name) {
 				$('#prop').remove();
 				var objName = obj.name;
-				matisse.paletteName = obj.palette;
-				if (matisse.palette[matisse.paletteName] === null) {
+				mdraw.paletteName = obj.palette;
+				if (mdraw.palette[mdraw.paletteName] === null) {
 					return;
 				}
 				if (objName === undefined ) {
 					return;
 				}
-				var _properties = util.getDefaultDataFromArray(matisse.palette[matisse.paletteName].shapes[objName].properties);
+				var _properties = util.getDefaultDataFromArray(mdraw.palette[mdraw.paletteName].shapes[objName].properties);
 				if (_properties) {
-					matisse.palette[matisse.paletteName].shapes[objName].applyProperties ? matisse.palette[matisse.paletteName].shapes[objName].applyProperties(_properties) : null;
+					mdraw.palette[mdraw.paletteName].shapes[objName].applyProperties ? mdraw.palette[mdraw.paletteName].shapes[objName].applyProperties(_properties) : null;
 				}
 				// commenting out since quicklaunch menu handles this
 				//toolHandlers.openPropertiesPanel();

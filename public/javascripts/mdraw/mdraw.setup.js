@@ -5,7 +5,7 @@
  * About this :Entry Point File, All Dom Ready functions need to be defined here
  */
 
-define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.containers", "matisse.containers.devices", "matisse.layouts", "features/modified-by-user", "features/shared-users", "features/chat", "matisse.layouts.content", "matisse.palettes", "matisse.palettes.basicshapes", "matisse.palettes.wireframe", "matisse.palettes.components", "matisse.events", "../javascripts/thirdparty/csspopup.js", "matisse.help"], function (matisse, mfabric, Comm, main, containers, palettes, layouts, modifiedByUser, sharedUsers, chat) {
+define(["mdraw", "mdraw.fabric", "mdraw.comm", "mdraw.main", "mdraw.containers", "mdraw.containers.devices", "mdraw.layouts", "features/modified-by-user", "features/shared-users", "features/chat", "mdraw.layouts.content", "mdraw.palettes", "mdraw.palettes.basicshapes", "mdraw.palettes.wireframe", "mdraw.palettes.components", "mdraw.events", "../javascripts/thirdparty/csspopup.js", "mdraw.help"], function (mdraw, mfabric, Comm, main, containers, palettes, layouts, modifiedByUser, sharedUsers, chat) {
 
     "use strict";
 	//Dom Ready function
@@ -20,13 +20,13 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
          */
 		comm.onContainerDraw = function (data) {
 			/* get container and layout data from server if any and assing it */
-			data == 'empty' ? matisse.containerName = data : matisse.containerName = data.container;
+			data == 'empty' ? mdraw.containerName = data : mdraw.containerName = data.container;
 			/* if data is available then start application with this container and layout*/
-			if (matisse.containerName !== 'empty') {
-				containers.containerName = matisse.containerName;
+			if (mdraw.containerName !== 'empty') {
+				containers.containerName = mdraw.containerName;
 				containers.canvasWidth = data.canvasWidth;
 				containers.canvasHeight = data.canvasHeight;
-				containers.setContainer(matisse.containerName, 'old', containers.canvasWidth, containers.canvasHeight);
+				containers.setContainer(mdraw.containerName, 'old', containers.canvasWidth, containers.canvasHeight);
           $('#boardName').text(data.name);
 			    $('#boardName').css("top",$('#boardName').width()+20);
 				return;
@@ -39,21 +39,21 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
 		 * Displays welcome message with user name
 		 * @param data - user details
 		 */
-		//console.log(matisse);
+		//console.log(mdraw);
               //$.get('/userinfo',
               //      function(info) {
 		       // /* check if userName is missing, show welcome message*/
-		       // if(matisse.userName == null) {
+		       // if(mdraw.userName == null) {
               //              // key is login-service name like 'twitter', 'google'
               //              var userInfoKey = info.loginService.toLowerCase();
               //              var user = info[userInfoKey];
-		       //     matisse.userName = user.name;
-              //              matisse.userProfilePic = user.profile_image_url || user.picture;
-              //              matisse.userLoginService = info.loginService;
-		       //     $('#userProfilePic').append('<img src="'+matisse.userProfilePic+'" alt="pic" class="b-userpic"></img>');
-		       //     $('#userProfilePicBig').append('<img src="'+matisse.userProfilePic+'" alt="pic" class="b-userpic-big"></img>');
-		       //     $('#userName').html(matisse.userName);
-		       //     $('#userLoginService').html(matisse.userLoginService);
+		       //     mdraw.userName = user.name;
+              //              mdraw.userProfilePic = user.profile_image_url || user.picture;
+              //              mdraw.userLoginService = info.loginService;
+		       //     $('#userProfilePic').append('<img src="'+mdraw.userProfilePic+'" alt="pic" class="b-userpic"></img>');
+		       //     $('#userProfilePicBig').append('<img src="'+mdraw.userProfilePic+'" alt="pic" class="b-userpic-big"></img>');
+		       //     $('#userName').html(mdraw.userName);
+		       //     $('#userLoginService').html(mdraw.userLoginService);
 		       // }
               //      }, 'json');
 
@@ -64,8 +64,8 @@ define(["matisse", "matisse.fabric", "matisse.comm", "matisse.main", "matisse.co
             window.location = '/';
 	        }, 3500);
 	      };
-	      matisse.comm = comm;
-              matisse.main = main;
+	      mdraw.comm = comm;
+              mdraw.main = main;
               main.addTools();
 
               modifiedByUser.init();

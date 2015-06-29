@@ -1,4 +1,4 @@
-define(["matisse", "matisse.util"], function (matisse, util) {
+define(["mdraw", "mdraw.util"], function (mdraw, util) {
     "use strict";
     var actionBar = {
         initialize: function () {
@@ -102,10 +102,10 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                             }]
                         });
                     }
-                    matisse.undoStack.push(objGroup);
+                    mdraw.undoStack.push(objGroup);
                 } else {
                     var originalObj = actionBar.getOriginalObj(obj);
-                    matisse.undoStack.push({
+                    mdraw.undoStack.push({
                         palette: obj.palette,
                         name: obj.name,
                         action: 'modified',
@@ -118,12 +118,12 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                 }
             } else if (state == "created") {
                 if (obj) {
-                    matisse.undoStack.push(obj);
+                    mdraw.undoStack.push(obj);
                 } else {
-                    matisse.undoStack.push({
-                        palette: matisse.paletteName,
-                        action: matisse.action,
-                        args: matisse.shapeArgs
+                    mdraw.undoStack.push({
+                        palette: mdraw.paletteName,
+                        action: mdraw.action,
+                        args: mdraw.shapeArgs
                     });
                 }
             } else if (state == "deleted") {
@@ -140,19 +140,19 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                             args: [objectsInGroup[i]]
                         });
                     }
-                    matisse.undoStack.push(objGroup);
-                    matisse.main.deleteObjects();
+                    mdraw.undoStack.push(objGroup);
+                    mdraw.main.deleteObjects();
                 } else {
                     var obj = canvas.getActiveObject();
-                    if (obj) matisse.undoStack.push({
+                    if (obj) mdraw.undoStack.push({
                         palette: obj.palette,
                         action: obj.name,
                         args: [obj]
                     });
-                    matisse.main.deleteObjects();
+                    mdraw.main.deleteObjects();
                 }
             }
-            if (matisse.undoStack.length > 0) {
+            if (mdraw.undoStack.length > 0) {
                 $('#Undo').removeClass('disabled');
             } else {
                 $('#Undo').addClass('disabled');
@@ -161,13 +161,13 @@ define(["matisse", "matisse.util"], function (matisse, util) {
         handleUndoRedoAction: function (command) {
             var executeCommandStack, restoreCommandStack, executeCommandObj, restoreCommandObj;
             if (command == "undo") {
-                executeCommandStack = matisse.undoStack;
-                restoreCommandStack = matisse.redoStack;
+                executeCommandStack = mdraw.undoStack;
+                restoreCommandStack = mdraw.redoStack;
                 executeCommandObj = $('#Undo');
                 restoreCommandObj = $('#Redo');
             } else if (command == "redo") {
-                executeCommandStack = matisse.redoStack;
-                restoreCommandStack = matisse.undoStack;
+                executeCommandStack = mdraw.redoStack;
+                restoreCommandStack = mdraw.undoStack;
                 executeCommandObj = $('#Redo');
                 restoreCommandObj = $('#Undo');
             }
@@ -196,14 +196,14 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                                         object: currentObj
                                     }]
                                 });
-                                matisse.comm.sendDrawMsg({
+                                mdraw.comm.sendDrawMsg({
                                     action: objInGroup.action,
                                     name: objInGroup.name,
                                     palette: objInGroup.palette,
                                     path: objInGroup.path,
                                     args: objInGroup.args
                                 });
-                                matisse.main.modifyObject(objInGroup.args);
+                                mdraw.main.modifyObject(objInGroup.args);
                             }
                         });
                         restoreCommandStack.push(objGroup);
@@ -221,14 +221,14 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                                         object: currentObj
                                     }]
                                 });
-                                matisse.comm.sendDrawMsg({
+                                mdraw.comm.sendDrawMsg({
                                     action: obj.action,
                                     name: obj.name,
                                     palette: obj.palette,
                                     path: obj.path,
                                     args: obj.args
                                 });
-                                matisse.main.modifyObject(obj.args);
+                                mdraw.main.modifyObject(obj.args);
                             }
                         });
                     }
@@ -257,7 +257,7 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                             restoreCommandStack.push(obj);
                             for (var i = 0; i < itemGroup.length; i++) {
                                 canvas.setActiveObject(itemGroup[i]);
-                                matisse.main.deleteObjects();
+                                mdraw.main.deleteObjects();
                             }
                         } else {
                             for (var i = 0; i < obj.length; i++) {
@@ -270,13 +270,13 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                                 } else {
                                     var currentObj = obj[i].args[0];
                                 }
-                                matisse.comm.sendDrawMsg({
+                                mdraw.comm.sendDrawMsg({
                                     palette: obj[i].palette,
                                     action: obj[i].action,
                                     path: obj[i].path,
                                     args: [currentObj]
                                 });
-                                matisse.palette[obj[i].palette].shapes[obj[i].action].toolAction.apply(null, obj[i].args);
+                                mdraw.palette[obj[i].palette].shapes[obj[i].action].toolAction.apply(null, obj[i].args);
                                 objGroup.push({
                                     palette: obj[i].palette,
                                     action: obj[i].action,
@@ -292,7 +292,7 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                                 created = false;
                                 restoreCommandStack.push(obj);
                                 canvas.setActiveObject(item);
-                                matisse.main.deleteObjects();
+                                mdraw.main.deleteObjects();
                             }
                         });
                         if (created) {
@@ -305,13 +305,13 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                             } else {
                                 var currentObj = obj.args[0];
                             }
-                            matisse.comm.sendDrawMsg({
+                            mdraw.comm.sendDrawMsg({
                                 palette: obj.palette,
                                 action: obj.action,
                                 path: obj.path,
                                 args: [currentObj]
                             });
-                            matisse.palette[obj.palette].shapes[obj.action].toolAction.apply(null, obj.args);
+                            mdraw.palette[obj.palette].shapes[obj.action].toolAction.apply(null, obj.args);
                             restoreCommandStack.push({
                                 palette: obj.palette,
                                 action: obj.action,
@@ -334,12 +334,12 @@ define(["matisse", "matisse.util"], function (matisse, util) {
             $('#propdiv').dialog("close");
             canvas.isSelectMode = false;
             var objectToCopy = canvas.getActiveObject();
-            matisse.drawShape = true;
-            matisse.action = objectToCopy.name;
-            matisse.paletteName = objectToCopy.palette;
-            var obj = util.getPropertiesFromObject(matisse.palette[matisse.paletteName].shapes[matisse.action].properties, objectToCopy);
+            mdraw.drawShape = true;
+            mdraw.action = objectToCopy.name;
+            mdraw.paletteName = objectToCopy.palette;
+            var obj = util.getPropertiesFromObject(mdraw.palette[mdraw.paletteName].shapes[mdraw.action].properties, objectToCopy);
             obj.uid = util.uniqid();
-            matisse.shapeArgs = [obj];
+            mdraw.shapeArgs = [obj];
             $('div.m-quick-edit').fadeOut('fast', function () {
                 canvas.discardActiveObject();
                 canvas.renderAll();
@@ -348,8 +348,8 @@ define(["matisse", "matisse.util"], function (matisse, util) {
         },
         handleGroupCopyAction: function () {
             canvas.isSelectMode = false;
-            matisse.drawShape = true;
-            matisse.groupCopyMode = true;
+            mdraw.drawShape = true;
+            mdraw.groupCopyMode = true;
             $('div.m-quick-edit-group').fadeOut('fast', function () {
                 canvas.discardActiveObject();
                 canvas.renderAll();
@@ -489,8 +489,8 @@ define(["matisse", "matisse.util"], function (matisse, util) {
     		    });
             };
             var clipImage = function() {
-                var innerHeight = matisseContainer.innerHeight;
-                var innerWidth = matisseContainer.innerWidth;
+                var innerHeight = mdrawContainer.innerHeight;
+                var innerWidth = mdrawContainer.innerWidth;
                 var xmin = containerDiv.position().left;
                 var xmax = innerWidth + containerDiv.offset().left;
                 var ymin = containerDiv.position().top;
@@ -507,9 +507,9 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                     }
                 });
                 setClipCanvas(clipCanvas,xToAdd,yToAdd);
-                clipCanvas.setBackgroundImage("../images/" + matisseContainer.src, function() {
-                    clipCanvas.sendToBack(matisse.vLine);
-                    clipCanvas.sendToBack(matisse.hLine);
+                clipCanvas.setBackgroundImage("../images/" + mdrawContainer.src, function() {
+                    clipCanvas.sendToBack(mdraw.vLine);
+                    clipCanvas.sendToBack(mdraw.hLine);
                     data = clipCanvas.toDataURL('png', 0.1);
                     $("#popUpDiv").slideUp("fast", function() {
                         $("#result").html('<img src=' + data + ' />');
@@ -519,12 +519,12 @@ define(["matisse", "matisse.util"], function (matisse, util) {
                 });
             };
             var clipCanvas = new fabric.Canvas('clip');
-            var matisseContainer = matisse.containers[matisse.containerName];
-            var containerHeight = matisseContainer.height;
-            var containerWidth = matisseContainer.width;
-            var containerImgSrc = "url(../images/" + matisseContainer.src + ")";
-            var xToAdd = matisseContainer.viewportX;
-            var yToAdd = matisseContainer.viewportY;
+            var mdrawContainer = mdraw.containers[mdraw.containerName];
+            var containerHeight = mdrawContainer.height;
+            var containerWidth = mdrawContainer.width;
+            var containerImgSrc = "url(../images/" + mdrawContainer.src + ")";
+            var xToAdd = mdrawContainer.viewportX;
+            var yToAdd = mdrawContainer.viewportY;
             clipCanvas.setHeight(canvas.height);
             clipCanvas.setWidth(canvas.width);
             $.each(canvas.getObjects(),function(index,value) { 
@@ -534,7 +534,7 @@ define(["matisse", "matisse.util"], function (matisse, util) {
             canvas.deactivateAll();
             var data = clipCanvas.toDataURL('png', 0.1);
             popup('popUpDiv', 'closediv', 1024, 768);
-            if(matisse.containerName=='browser') $('#popUpDiv').addClass('scale-container');
+            if(mdraw.containerName=='browser') $('#popUpDiv').addClass('scale-container');
             $("#result").html('<img src=' + data + ' />');
             
             var containerDiv = $('#device-container');

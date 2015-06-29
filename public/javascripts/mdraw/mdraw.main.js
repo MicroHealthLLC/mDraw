@@ -6,7 +6,7 @@
  * Uses 'Fabric.js' library for client side
  * Node.js and  Node Package Manager (NPM) for server side - JavaScript environment that uses an asynchronous event-driven model.
  */
-define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.palettes", "matisse.events", "matisse.palettes.properties", "matisse.toolbuttons.handlers", "matisse.comm","../components/ui.imaginea.accordion","matisse.action-bar"], function (matisse, ui, util, mfabric, palettes, events,  properties, toolHandlers, comm, CustomAccordion,mActionBar) {
+define(["mdraw", "mdraw.ui", "mdraw.util", "mdraw.fabric", "mdraw.palettes", "mdraw.events", "mdraw.palettes.properties", "mdraw.toolbuttons.handlers", "mdraw.comm","../components/ui.imaginea.accordion","mdraw.action-bar"], function (mdraw, ui, util, mfabric, palettes, events,  properties, toolHandlers, comm, CustomAccordion,mActionBar) {
     "use strict";
     /**
      *  create canvas object
@@ -34,8 +34,8 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             ui.drawHVLines();
             canvas.isSelectMode = true;
 
-            matisse.xOffset = util.getOffset(document.getElementById('canvasId')).left+matisse.xOffset;
-            matisse.yOffset = util.getOffset(document.getElementById('canvasId')).top+ matisse.yOffset;
+            mdraw.xOffset = util.getOffset(document.getElementById('canvasId')).left+mdraw.xOffset;
+            mdraw.yOffset = util.getOffset(document.getElementById('canvasId')).top+ mdraw.yOffset;
 
             // this.addTools();
 
@@ -43,9 +43,9 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             $('#propicon').click(toolHandlers.openPropertiesPanel);
             $('#myUserName').focusout(function () {
                 var newName = $('#myUserName input').val();
-                var oldName = matisse.userName || '';
-                var io = matisse.comm.socket;
-                matisse.userName = newName;
+                var oldName = mdraw.userName || '';
+                var io = mdraw.comm.socket;
+                mdraw.userName = newName;
                 var data = {oldName: oldName, newName:newName}
                 io.emit('nameChanged', data);
 
@@ -77,7 +77,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             $('#save-png').click(mActionBar.handlePngDownload);
             $('#save-svg').click(mActionBar.handleSvgDownload);
 
-            if(matisse.containers[matisse.containerName] === undefined) {
+            if(mdraw.containers[mdraw.containerName] === undefined) {
                 $('#showImageIcon').click(mActionBar.handleRawAction);
             } else {
                 $('#showImageIcon').click(toolHandlers.openSubmenu);
@@ -134,7 +134,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
 
             if (activeObject) {
                 canvas.remove(activeObject);
-                matisse.comm.sendDrawMsg({
+                mdraw.comm.sendDrawMsg({
                     action: "delete",
                     args: [{
                         uid: activeObject.uid
@@ -146,7 +146,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                 canvas.discardActiveGroup();
                 objectsInGroup.forEach(function (object) {
                     canvas.remove(object);
-                    matisse.comm.sendDrawMsg({
+                    mdraw.comm.sendDrawMsg({
                         action: "delete",
                         args: [{
                             uid: object.uid
@@ -168,7 +168,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                         canvas.deactivateAllWithDispatch();
                         canvas.renderAll();
                     }
-                    matisse.palette[obj.palette].shapes[obj.name].modifyAction ? matisse.palette[obj.palette].shapes[obj.name].modifyAction.apply(this, args) : null;
+                    mdraw.palette[obj.palette].shapes[obj.name].modifyAction ? mdraw.palette[obj.palette].shapes[obj.name].modifyAction.apply(this, args) : null;
                     obj.setCoords(); // without this object selection pointers remain at orginal postion(beofore modified)
                 }
                 canvas.renderAll();
@@ -217,7 +217,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
          * @param none
          */
         addTools: function () {
-            palettes.createAllPallettes(matisse.palette);
+            palettes.createAllPallettes(mdraw.palette);
             new CustomAccordion({
                 "cntrId":"accordion",
                 "headerClass":"p-header",
@@ -235,7 +235,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
         },
         /**
          *  Called when other users add, modify or delete any object
-         *  @method  matisse.onDraw
+         *  @method  mdraw.onDraw
          *  @param data - shape(data.shape) and args array (data.args)
          *
          */
@@ -246,9 +246,9 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                         return;
                     }
                     if (data.action === "modified") {
-                        matisse.main.modifyObject(data.args);
+                        mdraw.main.modifyObject(data.args);
                     } else if (data.action === "drawpath") {
-                        matisse.main.drawPath(data.args[0]);
+                        mdraw.main.drawPath(data.args[0]);
                     } else if (data.action === "delete") {
                         var obj = util.getObjectById(data.args[0].uid);
                         var activeObj = canvas.getActiveObject();
@@ -258,7 +258,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                             util.hideQuickMenuDiv();
                         }
                     } else if (data.action === "importimage") {
-                        matisse.main.addImageToCanvasFromServer(data.args[0]);
+                        mdraw.main.addImageToCanvasFromServer(data.args[0]);
                     } else if (data.action === "zindexchange") {
                         var obj = util.getObjectById(data.args[0].uid);
                         if(data.args[0].change === 'forward') {
@@ -269,10 +269,10 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                             canvas.renderAll();
                         }
                     } else if (data.action === "uploadLayout") {
-                        matisse.main.addLayoutToCanvasFromServer(data.args[0]);
+                        mdraw.main.addLayoutToCanvasFromServer(data.args[0]);
                     } else {
-                        if (matisse.palette[data.palette] !== undefined) {
-                            matisse.palette[data.palette].shapes[data.action].toolAction.apply(this, data.args);
+                        if (mdraw.palette[data.palette] !== undefined) {
+                            mdraw.palette[data.palette].shapes[data.action].toolAction.apply(this, data.args);
                         }
                     }
                 }
@@ -289,7 +289,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                 args.image = this;
                 args.width = this.width;
                 args.height = this.height;
-                matisse.main.addImageToCanvas(args);
+                mdraw.main.addImageToCanvas(args);
             }
             /* args.src - image source as dataURL */
             img.src = args.src;
@@ -306,7 +306,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
                 args.image = this;
                 args.width = this.width;
                 args.height = this.height;
-                matisse.main.addLayoutToCanvas(args);
+                mdraw.main.addLayoutToCanvas(args);
             }
             /* args.src - image source as dataURL */
             img.src = args.src;
@@ -331,7 +331,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             fabImage.palette = args.palette;
             if(args.self) {
                 args.self = false;
-                matisse.comm.sendDrawMsg({
+                mdraw.comm.sendDrawMsg({
                     action: 'uploadLayout',
                     palette: fabImage.palette,
                     args: [{
@@ -368,7 +368,7 @@ define(["matisse", "matisse.ui", "matisse.util", "matisse.fabric", "matisse.pale
             fabImage.setCoords();
             if(args.self) {
                 args.self = false;
-                matisse.comm.sendDrawMsg({
+                mdraw.comm.sendDrawMsg({
                     action: 'importimage',
                     palette: fabImage.palette,
                     args: [{

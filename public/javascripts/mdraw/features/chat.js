@@ -2,8 +2,8 @@
  * To handle sending/receiving and showing user chat
  */
 
-define(["matisse", "matisse.comm"],
-       function(matisse, commType) {
+define(["mdraw", "mdraw.comm"],
+       function(mdraw, commType) {
            
            function init(view) {
                commType.prototype.onDraw = 
@@ -15,7 +15,7 @@ define(["matisse", "matisse.comm"],
                                 view.showAlert(data.args[0].text);
                                 view.showMessage(data.args[0].text);
                             } else {
-                                originalOnDraw.call(matisse.comm, data);
+                                originalOnDraw.call(mdraw.comm, data);
                             }
                        };
                     })(commType.prototype.onDraw);
@@ -39,9 +39,9 @@ define(["matisse", "matisse.comm"],
 
                function sendMessage() {
                    if($("#chat").val()) { // has non-empty text
-                       var msg = matisse.userName +': ' + $("#chat").val();
+                       var msg = mdraw.userName +': ' + $("#chat").val();
                        showMessage(msg);
-                       matisse.comm.sendDrawMsg(
+                       mdraw.comm.sendDrawMsg(
                            {
                                action: "chat",
                                args: [{text: msg}]

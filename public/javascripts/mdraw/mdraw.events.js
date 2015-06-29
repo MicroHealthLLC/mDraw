@@ -6,7 +6,7 @@
  *
  */
 
-define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.util"], function (matisse, ui, comm, actionBar, util) {
+define(["mdraw", "mdraw.ui", "mdraw.comm", "mdraw.action-bar", "mdraw.util"], function (mdraw, ui, comm, actionBar, util) {
 	"use strict";
 	return {
 		/**
@@ -45,56 +45,56 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objleft = obj.left;
-            	obj.set('left', objleft - (matisse.horIndent * matisse.indentMultiplier));
+            	obj.set('left', objleft - (mdraw.horIndent * mdraw.indentMultiplier));
             	onObjectMoveByKey(obj);
             }
         } else if (key == "37") {
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objleft = obj.left;
-            	obj.set('left', objleft - matisse.horIndent);
+            	obj.set('left', objleft - mdraw.horIndent);
             	onObjectMoveByKey(obj)
             }
         } else if (key == "39" && evt.shiftKey) {
             var obj = canvas.getActiveObject();
             var objleft = obj.left;
             if(obj) {
-            	obj.set('left', objleft + (matisse.horIndent * matisse.indentMultiplier));
+            	obj.set('left', objleft + (mdraw.horIndent * mdraw.indentMultiplier));
             	onObjectMoveByKey(obj);
             }
         } else if (key == "39") {
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objleft = obj.left;
-            	obj.set('left', objleft + matisse.horIndent);
+            	obj.set('left', objleft + mdraw.horIndent);
             	onObjectMoveByKey(obj)
             }
         } else if (key == "38" && evt.shiftKey) {
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objtop = obj.top;
-            	obj.set('top', objtop - matisse.verIndent * matisse.indentMultiplier);
+            	obj.set('top', objtop - mdraw.verIndent * mdraw.indentMultiplier);
             	onObjectMoveByKey(obj)
             }
         } else if (key == "38") {
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objtop = obj.top;
-            	obj.set('top', objtop - matisse.verIndent);
+            	obj.set('top', objtop - mdraw.verIndent);
             	onObjectMoveByKey(obj)
             }
         } else if (key == "40" && evt.shiftKey) {
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objtop = obj.top;
-            	obj.set('top', objtop + matisse.verIndent * matisse.indentMultiplier);
+            	obj.set('top', objtop + mdraw.verIndent * mdraw.indentMultiplier);
             	onObjectMoveByKey(obj)
             }
         } else if (key == "40") {
             var obj = canvas.getActiveObject();
             if(obj) {
             	var objtop = obj.top;
-            	obj.set('top', objtop + matisse.verIndent);
+            	obj.set('top', objtop + mdraw.verIndent);
             	onObjectMoveByKey(obj)
             }
         }
@@ -110,48 +110,48 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
        if (document.getElementById('delete_menuItem') && event.button == 0) { //if it is left click, remove the context menu item, if any
         $('#delete_menuItem').remove();
       }
-      if (!canvas.isDrawingMode && matisse.drawShape) {
-    	matisse.points.x = event.pageX + document.getElementById("canvasId").scrollLeft + document.getElementById("containerDiv").scrollLeft - matisse.xOffset; //offset
-        matisse.points.y = event.pageY + document.getElementById("canvasId").scrollTop + document.getElementById("containerDiv").scrollTop - matisse.yOffset; //offset
-        if(matisse.groupCopyMode) {
+      if (!canvas.isDrawingMode && mdraw.drawShape) {
+    	mdraw.points.x = event.pageX + document.getElementById("canvasId").scrollLeft + document.getElementById("containerDiv").scrollLeft - mdraw.xOffset; //offset
+        mdraw.points.y = event.pageY + document.getElementById("canvasId").scrollTop + document.getElementById("containerDiv").scrollTop - mdraw.yOffset; //offset
+        if(mdraw.groupCopyMode) {
         	var selected_group_obj_array = canvas.getActiveGroup().getObjects();
         	var createdObjArray = [];
         	$.each(selected_group_obj_array,function(index,value) {
-        		matisse.action = value.name;
-        		matisse.paletteName = value.palette;   
-        		var obj = util.getPropertiesFromObject(matisse.palette[matisse.paletteName].shapes[matisse.action].properties,value);
+        		mdraw.action = value.name;
+        		mdraw.paletteName = value.palette;   
+        		var obj = util.getPropertiesFromObject(mdraw.palette[mdraw.paletteName].shapes[mdraw.action].properties,value);
         		obj.uid = util.uniqid();
-        		matisse.shapeArgs = [obj];
-        		matisse.shapeArgs[0].left = matisse.points.x + obj.left;
-                matisse.shapeArgs[0].top = matisse.points.y + obj.top;
+        		mdraw.shapeArgs = [obj];
+        		mdraw.shapeArgs[0].left = mdraw.points.x + obj.left;
+                mdraw.shapeArgs[0].top = mdraw.points.y + obj.top;
                 createdObjArray.push({
-                    palette: matisse.paletteName,
-                    action: matisse.action,
-                    args: matisse.shapeArgs
+                    palette: mdraw.paletteName,
+                    action: mdraw.action,
+                    args: mdraw.shapeArgs
                 });
         		drawObject(event);
         	});
-        	matisse.groupCopyMode = false;
+        	mdraw.groupCopyMode = false;
         	$('span.copy_icon','div.m-quick-edit-group').removeClass('selected');
         	actionBar.stateUpdated(createdObjArray, "created");
         }
         else {
-        	matisse.shapeArgs[0].left = matisse.points.x;
-            matisse.shapeArgs[0].top = matisse.points.y;
+        	mdraw.shapeArgs[0].left = mdraw.points.x;
+            mdraw.shapeArgs[0].top = mdraw.points.y;
         	drawObject(event);
         	$('span.copy_icon','div.m-quick-edit').removeClass('selected');
         	canvas.setActiveObject(canvas.item(canvas.getObjects().length-1));
             actionBar.stateUpdated(null, "created");
         }
 	    canvas.isSelectMode = true;
-	    matisse.drawShape = false;
+	    mdraw.drawShape = false;
 	    ui.resetShapeSelection();
       }
       if (canvas.isDrawingMode) {
-          matisse.xPoints = [];
-          matisse.yPoints = [];
-          matisse.xPoints.push(event.pageX + document.getElementById("canvasId").scrollLeft + document.getElementById("containerDiv").scrollLeft - matisse.xOffset);
-          matisse.yPoints.push(event.pageY + document.getElementById("canvasId").scrollTop + document.getElementById("containerDiv").scrollTop - matisse.yOffset);
+          mdraw.xPoints = [];
+          mdraw.yPoints = [];
+          mdraw.xPoints.push(event.pageX + document.getElementById("canvasId").scrollLeft + document.getElementById("containerDiv").scrollLeft - mdraw.xOffset);
+          mdraw.yPoints.push(event.pageY + document.getElementById("canvasId").scrollTop + document.getElementById("containerDiv").scrollTop - mdraw.yOffset);
       }
      },
 
@@ -176,7 +176,7 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
 				a.style.top = event.clientY + "px";
 				// when clicked on delete context menu item, delete the selected object from canvas.
 				$('#delete_menuItem').click(function(evt) {
-					matisse.main.deleteObjects();
+					mdraw.main.deleteObjects();
 					$('#delete_menuItem').css('display','none');
 				});
 				$('#delete_menuItem').mouseenter(function(evt) {					
@@ -197,10 +197,10 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
      * @param e mouseevent
      */
     mouseMove: function (event) {
-      matisse.eventObj = event;
+      mdraw.eventObj = event;
       if (canvas.isDrawingMode) {
-          matisse.xPoints.push(event.pageX + document.getElementById("canvasId").scrollLeft + document.getElementById("containerDiv").scrollLeft - matisse.xOffset);
-          matisse.yPoints.push(event.pageY + document.getElementById("canvasId").scrollTop + document.getElementById("containerDiv").scrollTop - matisse.yOffset);
+          mdraw.xPoints.push(event.pageX + document.getElementById("canvasId").scrollLeft + document.getElementById("containerDiv").scrollLeft - mdraw.xOffset);
+          mdraw.yPoints.push(event.pageY + document.getElementById("canvasId").scrollTop + document.getElementById("containerDiv").scrollTop - mdraw.yOffset);
       }
     },
 
@@ -223,13 +223,13 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
     return eve;
 
 	function drawObject(event) {
-		matisse.shapeArgs[0].name = matisse.action;
-	    matisse.shapeArgs[0].palette = matisse.paletteName;
-	    matisse.palette[matisse.paletteName].shapes[matisse.action].toolAction.apply(this, matisse.shapeArgs);
-	    matisse.comm.sendDrawMsg({
-	        palette: matisse.paletteName,
-	        action: matisse.action,
-	        args: matisse.shapeArgs
+		mdraw.shapeArgs[0].name = mdraw.action;
+	    mdraw.shapeArgs[0].palette = mdraw.paletteName;
+	    mdraw.palette[mdraw.paletteName].shapes[mdraw.action].toolAction.apply(this, mdraw.shapeArgs);
+	    mdraw.comm.sendDrawMsg({
+	        palette: mdraw.paletteName,
+	        action: mdraw.action,
+	        args: mdraw.shapeArgs
 	    });
 	}
     
@@ -252,7 +252,7 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
       notifyObjModify(obj);
     }
     function notifyObjModify(obj) {
-      matisse.comm.sendDrawMsg({
+      mdraw.comm.sendDrawMsg({
         action: "modified",
         //name: obj.name,
         palette: obj.palette,
@@ -264,7 +264,7 @@ define(["matisse", "matisse.ui", "matisse.comm", "matisse.action-bar", "matisse.
       });
     }
     function notifyZindexChange(obj, changType) {
-      matisse.comm.sendDrawMsg({
+      mdraw.comm.sendDrawMsg({
         action: "zindexchange",
         name: obj.name,
         palette: obj.palette,

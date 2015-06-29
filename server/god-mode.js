@@ -75,7 +75,7 @@ module.exports = {
  */
 function godp(redis) {
     return function(name, fn) {
-        redis.sismember('matisse:gods', name,
+        redis.sismember('mdraw:gods', name,
                         function(err, i) { // i == 1 is god
                             fn(i == 1);
                         });

@@ -1,5 +1,5 @@
-/** matisse.util **/
-define(["matisse"], function (matisse) {
+/** mdraw.util **/
+define(["mdraw"], function (mdraw) {
 	"use strict";
 	return {
 	 /* Throws Error if the value is null. */
@@ -219,8 +219,8 @@ define(["matisse"], function (matisse) {
 		 */
 	    quickMenuHandler: function(selectedObj) {
 	    	$('div.m-quick-edit').show();
-	    	var xpos = parseInt(selectedObj.get("left")) + matisse.xOffset - (parseInt(selectedObj.getWidth())/2);
-	        var ypos = parseInt(selectedObj.get("top")) + matisse.yOffset - (parseInt(selectedObj.getHeight())/2) - 50;
+	    	var xpos = parseInt(selectedObj.get("left")) + mdraw.xOffset - (parseInt(selectedObj.getWidth())/2);
+	        var ypos = parseInt(selectedObj.get("top")) + mdraw.yOffset - (parseInt(selectedObj.getHeight())/2) - 50;
 	        $('div.m-quick-edit').offset({ top: Math.abs(ypos), left: Math.abs(xpos) });
 	      },
 	      /**
@@ -231,8 +231,8 @@ define(["matisse"], function (matisse) {
 	    quickMenuGroupHandler: function(selectedGroup) {
 	      	var quickMenu = $('div.m-quick-edit-group');
 	      	quickMenu.show();
-	      	var xpos = selectedGroup.get("left") + matisse.xOffset - (selectedGroup.getWidth()/2);
-	        var ypos = selectedGroup.get("top") + matisse.yOffset - (selectedGroup.getHeight()/2) - 50;
+	      	var xpos = selectedGroup.get("left") + mdraw.xOffset - (selectedGroup.getWidth()/2);
+	        var ypos = selectedGroup.get("top") + mdraw.yOffset - (selectedGroup.getHeight()/2) - 50;
 	        quickMenu.offset({ top: Math.abs(ypos), left: Math.abs(xpos) });
 	        },
 	      /**

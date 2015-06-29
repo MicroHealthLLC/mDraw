@@ -5,7 +5,7 @@
  * About this : Generates different type of layouts
  */
 
-require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.properties", "matisse.util"], function (matisse, main, layouts, objproperties, util) {
+require(["mdraw", "mdraw.main", "mdraw.layouts", "mdraw.palettes.properties", "mdraw.util"], function (mdraw, main, layouts, objproperties, util) {
 	
 	layouts.registerLayout("content", {
 		collectionName: 'content',
@@ -36,7 +36,7 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 							scaleY: 1
 						}],
 						args = [];
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
 					args.push(args1);
 					/**
 					 * arguments of each object are returned so that they can be sent to the server and its state is saved.
@@ -90,8 +90,8 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 							scaleY: 1
 						}],
 						args = [];
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
 					args.push(args1);
 					args.push(args2);
 					/**
@@ -159,9 +159,9 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 							scaleY: 1
 						}],
 						args = [];
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
 					
 					args.push(args1);
 					args.push(args2);
@@ -234,9 +234,9 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 					/**
 					 * To call basic shapes rectangle's tool action to create fabric rectangle on canvas
 					 */
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
 
 					args.push(args1);
 					args.push(args2);
@@ -327,10 +327,10 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 					/**
 					 * To call basic shapes rectangle's tool action to create fabric rectangle on canvas
 					 */
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args4);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args4);
 
 					args.push(args1);
 					args.push(args2);
@@ -421,10 +421,10 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 					/**
 					 * To call basic shapes rectangle's tool action to create fabric rectangle on canvas
 					 */
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args4);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args4);
 					
 					args.push(args1);
 					args.push(args2);
@@ -531,11 +531,11 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 					/**
 					 * To call basic shapes rectangle's tool action to create fabric rectangle on canvas
 					 */
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args4);
-					matisse.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args5);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args1);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args2);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args3);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args4);
+					mdraw.palette["shapes"].shapes["rectangle"].toolAction.apply(this, args5);
 
 					args.push(args1);
 					args.push(args2);
@@ -558,7 +558,7 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 				displayName: "uploadLayout",
 				toolAction: function() {
 					var oReader = new FileReader();
-					if (matisse.layoutURL) {
+					if (mdraw.layoutURL) {
 						oReader.onload = (function (theFile) {
 							return function (e) {
 								var args = {};
@@ -577,13 +577,13 @@ require(["matisse", "matisse.main", "matisse.layouts", "matisse.palettes.propert
 									args.src = this.src;
 									args.width = canvas.width;
 									args.height = canvas.height;
-									matisse.main.addLayoutToCanvas(args);
+									mdraw.main.addLayoutToCanvas(args);
 								}
 								img.src = e.target.result
 							};
-						})(matisse.layoutURL);
+						})(mdraw.layoutURL);
 						// Read in the image file as a data URL.
-						oReader.readAsDataURL(matisse.layoutURL);
+						oReader.readAsDataURL(mdraw.layoutURL);
 					}
 				}				
 			}

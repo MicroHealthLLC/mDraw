@@ -27,7 +27,7 @@ application = (function () {
     login.authenticate();
 
     redis.select(4);
-    Nohm.setPrefix('matisse');
+    Nohm.setPrefix('mdraw');
 
     redis.on("connect", function() {
       Nohm.setClient(redis);

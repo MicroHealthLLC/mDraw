@@ -3,17 +3,17 @@
  * To show the users who else are working on the board
  */
 
-define(["matisse"],
-       function(matisse) {
+define(["mdraw"],
+       function(mdraw) {
 
            function startGreeting(view) {
 
                var friends = [];
 
-               var io = matisse.comm.socket;
+               var io = mdraw.comm.socket;
 
                function me(){
-               var name = matisse.userName;
+               var name = mdraw.userName;
                if (!name){
                    name = 'unnamed';
                }

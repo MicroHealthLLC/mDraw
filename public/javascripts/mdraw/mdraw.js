@@ -2,7 +2,7 @@
  * User: Bahvani Shankar,Pradeep
  * Date: 12/26/11
  * Time: 11:16 AM
- * About matisse : matisse is the Main Namespace
+ * About mdraw : mdraw is the Main Namespace
  */
 //Defining the global name space
 define(function () {

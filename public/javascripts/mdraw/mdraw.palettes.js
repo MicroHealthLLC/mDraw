@@ -5,11 +5,11 @@
  * About this : Utility to Create all the shapes, based on the type specified
  *
  */
-define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (matisse, main, ui, util) {
+define(["mdraw", "mdraw.main", "mdraw.ui", "mdraw.util"], function (mdraw, main, ui, util) {
     "use strict";
 	return {
 		registerpalette : function (paletteName, paletteDesc) {
-			matisse.palette[paletteName] = paletteDesc;
+			mdraw.palette[paletteName] = paletteDesc;
 		},
 		 /**
 		 * Loop through all palettes and call createPallette for each palette found
@@ -37,9 +37,9 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (mati
 		 */
 		createPallette: function (paletteName) {
 
-			var paletteName = matisse.palette[paletteName].collectionName,shapesObj,html="",i,shape,shapeName,shapeDisplayName,shapeHolder;
+			var paletteName = mdraw.palette[paletteName].collectionName,shapesObj,html="",i,shape,shapeName,shapeDisplayName,shapeHolder;
 			ui.updateAccordian(paletteName);
-			shapesObj = matisse.palette[paletteName];
+			shapesObj = mdraw.palette[paletteName];
 
 			for (i in shapesObj.shapes) {
 				shape = shapesObj.shapes[i];
@@ -90,21 +90,21 @@ define(["matisse", "matisse.main", "matisse.ui", "matisse.util"], function (mati
 			if(shapeEle!=null){
 				ui.resetShapeSelection();
 				$(shapeEle).addClass("shape-selected");
-				matisse.$currShape = shapeEle;
+				mdraw.$currShape = shapeEle;
 				canvas.isSelectMode = false;
 				shapeSelected = $(shapeEle).data().shape;
-				//matisse.currTool = e.target;
+				//mdraw.currTool = e.target;
 				//$(e.target).removeClass(toolId).addClass(toolId + "_click");
 				document.getElementById("c").style.cursor = 'default';
-				matisse.drawShape = true;
-				matisse.action = shapeSelected;
-				matisse.paletteName = $(shapeEle).parent().data().palettename;
+				mdraw.drawShape = true;
+				mdraw.action = shapeSelected;
+				mdraw.paletteName = $(shapeEle).parent().data().palettename;
 				if (shapeSelected !== "path") {
-					obj = util.getDefaultDataFromArray(matisse.palette[matisse.paletteName].shapes[shapeSelected].properties);
+					obj = util.getDefaultDataFromArray(mdraw.palette[mdraw.paletteName].shapes[shapeSelected].properties);
 					obj.uid = util.uniqid();
-					matisse.shapeArgs = [obj];
+					mdraw.shapeArgs = [obj];
 				}
-				if (matisse.action !== "path") {
+				if (mdraw.action !== "path") {
 					canvas.isDrawingMode = false;
 				} else {
 					document.getElementById("c").style.cursor = 'crosshair';

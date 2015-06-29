@@ -2,9 +2,9 @@
  * Author: Bahvani Shankar
  * Date: 12/26/11
  * Time: 11:16 AM
- * About matisse.ui : matisse.ui is the module to set lall ui related things like canvas, accordian, carousal etc.
+ * About mdraw.ui : mdraw.ui is the module to set lall ui related things like canvas, accordian, carousal etc.
  */
-define(["matisse.ui"],function (ui) {
+define(["mdraw.ui"],function (ui) {
 	"use strict";
 	/*
 		Custom Accordion Implementation for Matisee.

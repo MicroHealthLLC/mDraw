@@ -6,7 +6,7 @@
  */
 
 
-define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.properties"], function (matisse, palettes, util, objproperties) {
+define(["mdraw", "mdraw.palettes", "mdraw.util", "mdraw.palettes.properties"], function (mdraw, palettes, util, objproperties) {
 	"use strict";
 	/**
 	 * To load components objects. group the objects using pathgroup
@@ -79,7 +79,7 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 			if (this.value <= 100 && this.value >= 0) {
 				objct.paths[1].points[1].x = (wdth * this.value / 100) - (wdth / 2);
 				objct.paths[1].points[2].x = (wdth * this.value / 100) - (wdth / 2);
-				matisse.comm.sendDrawMsg({
+				mdraw.comm.sendDrawMsg({
 					action: "modified",
 					args: [{
 						uid: objct.uid,
@@ -215,16 +215,16 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 		txtbox.onkeyup = function (e) {
 			if (canvas.getActiveObject()) {
 				var pathGroup = addItemsToTable(canvas.getActiveObject(), txtbox.value);
-				matisse.comm.sendDrawMsg({
+				mdraw.comm.sendDrawMsg({
 					action: "modified",
 					args: [{
 						uid: pathGroup.uid,
 						object: pathGroup
 					}]
 				});
-				matisse.isUpdatingProperties = true;
+				mdraw.isUpdatingProperties = true;
 				canvas.setActiveObject(pathGroup);
-				matisse.isUpdatingProperties = false;
+				mdraw.isUpdatingProperties = false;
 			}
 		};
 	};
@@ -464,11 +464,11 @@ define(["matisse", "matisse.palettes", "matisse.util", "matisse.palettes.propert
 
     var imageComponent = new Component('image');
     imageComponent.addDimensionAndScale();
-    imageComponent.addStringProperty('source','http://www.thematisse.org/images/mattise_whitebg.png');
+    imageComponent.addStringProperty('source','http://www.themdraw.org/images/mattise_whitebg.png');
 
     imageComponent.addActions({
 				toolAction: function (args){
-					args.src = args.src ? args.src : 'http://www.thematisse.org/images/mattise_whitebg.png';
+					args.src = args.src ? args.src : 'http://www.themdraw.org/images/mattise_whitebg.png';
 					var img = fabric.Image.fromURL(args.src, function(img) {
 					    img.set({
 					      left: args.left,

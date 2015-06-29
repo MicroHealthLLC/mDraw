@@ -4,7 +4,7 @@
  * Time: 11:16 AM
  * About this : Define all SVGs here
  */
-require(["matisse", "matisse.main", "matisse.palettes", "matisse.palettes.properties", "matisse.util"], function (matisse, main, palettes, objproperties, util) {
+require(["mdraw", "mdraw.main", "mdraw.palettes", "mdraw.palettes.properties", "mdraw.util"], function (mdraw, main, palettes, objproperties, util) {
 
 	var updateProperties = function (obj, recvdObj) {
 		obj.left = recvdObj.left;

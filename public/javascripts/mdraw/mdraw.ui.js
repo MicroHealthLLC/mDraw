@@ -2,9 +2,9 @@
  * Author: Bahvani Shankar
  * Date: 12/26/11
  * Time: 11:16 AM
- * About matisse.ui : matisse.ui is the module to set lall ui related things like canvas, accordian, carousal etc.
+ * About mdraw.ui : mdraw.ui is the module to set lall ui related things like canvas, accordian, carousal etc.
  */
-define(["matisse","matisse.action-bar"], function (matisse,mActionBar) {
+define(["mdraw","mdraw.action-bar"], function (mdraw,mActionBar) {
 	"use strict";
 	var ui = { 
 		/** width and height of panels for resize */
@@ -131,9 +131,9 @@ define(["matisse","matisse.action-bar"], function (matisse,mActionBar) {
 		 *  TODO -- This method is obselete, should be removed in near future
 		 */
 		resetIconSelection: function () {
-			if (matisse.$currActiveIcon) {
-				matisse.$currActiveIcon.attr("src", matisse.$currActiveIcon.attr('data-inactive'));
-				matisse.$currActiveIcon.parent().parent().removeClass('shape-active');
+			if (mdraw.$currActiveIcon) {
+				mdraw.$currActiveIcon.attr("src", mdraw.$currActiveIcon.attr('data-inactive'));
+				mdraw.$currActiveIcon.parent().parent().removeClass('shape-active');
 			}
 		},
 		/**
@@ -144,8 +144,8 @@ define(["matisse","matisse.action-bar"], function (matisse,mActionBar) {
 		 */
 		
 		resetShapeSelection:function(){
-			if (matisse.$currShape) {
-				matisse.$currShape.removeClass('shape-selected');
+			if (mdraw.$currShape) {
+				mdraw.$currShape.removeClass('shape-selected');
 			}
 		}, 
 		/**
@@ -175,29 +175,29 @@ define(["matisse","matisse.action-bar"], function (matisse,mActionBar) {
 		 */
 		drawHVLines: function () {
 			//remove first, needs to redraw when window is resized
-			canvas.remove(matisse.hLine);
-			canvas.remove(matisse.vLine);
+			canvas.remove(mdraw.hLine);
+			canvas.remove(mdraw.vLine);
 			
 			var width = this.canvasWidth;
 			var height = this.canvasHeight;
-			matisse.hLine = new fabric.Line([0, -10, width, -10], {
+			mdraw.hLine = new fabric.Line([0, -10, width, -10], {
 				eanbled: false,
 				stroke: '#ff0000',
 				left: width / 2
 			});
-			matisse.vLine = new fabric.Line([-10, 0, -10, height], {
+			mdraw.vLine = new fabric.Line([-10, 0, -10, height], {
 				eanbled: false,
 				stroke: '#ff0000',
 				top: height / 2
 			});
-			matisse.vLine.name = 'vline';
-			matisse.hLine.name = 'hline';
-			canvas.add(matisse.hLine);
-			canvas.add(matisse.vLine);
-			matisse.hLine.set('fill', '#ff0000');
-			matisse.vLine.set('fill', '#ff0000');
-			matisse.hLine.set('strokeWidth', '.5');
-			matisse.vLine.set('strokeWidth', '.5');
+			mdraw.vLine.name = 'vline';
+			mdraw.hLine.name = 'hline';
+			canvas.add(mdraw.hLine);
+			canvas.add(mdraw.vLine);
+			mdraw.hLine.set('fill', '#ff0000');
+			mdraw.vLine.set('fill', '#ff0000');
+			mdraw.hLine.set('strokeWidth', '.5');
+			mdraw.vLine.set('strokeWidth', '.5');
 			//disableObject(line);
 			//	fabric.util.makeElementUnselectable(line)
 		}

@@ -6151,7 +6151,7 @@ fabric.util.string = {
     loadImageFromURL: (function () {
       var imgCache = { };
 
-      return function (url, callback, options) { // #for matisse 'options' to sent as callback method parameter
+      return function (url, callback, options) { // #for mdraw 'options' to sent as callback method parameter
         // check cache first
         
         var _this = this;

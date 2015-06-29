@@ -1,5 +1,5 @@
-/*matisse.events*/
-define(["matisse", "matisse.util", "matisse.layouts.content"], function (matisse, util, layoutsContent) {
+/*mdraw.events*/
+define(["mdraw", "mdraw.util", "mdraw.layouts.content"], function (mdraw, util, layoutsContent) {
     "use strict";
     return {
 
@@ -142,7 +142,7 @@ define(["matisse", "matisse.util", "matisse.layouts.content"], function (matisse
 						args.src = this.src;
 						args.width = this.width;
 						args.height = this.height;
-						matisse.main.addImageToCanvas(args);	
+						mdraw.main.addImageToCanvas(args);	
 					}
 					img.src = e.target.result
 					
@@ -163,8 +163,8 @@ define(["matisse", "matisse.util", "matisse.layouts.content"], function (matisse
 		bindLayoutCombo: function () {
 			$("#layout").bind("change", function (e) {
 				var val = document.getElementById("layout").value;					
-				var obj = matisse.layout.content.layouts[val].toolAction();
-				matisse.comm.sendDrawMsg({			
+				var obj = mdraw.layout.content.layouts[val].toolAction();
+				mdraw.comm.sendDrawMsg({			
 					action: val,
 					palette: "content",
 					args: [{

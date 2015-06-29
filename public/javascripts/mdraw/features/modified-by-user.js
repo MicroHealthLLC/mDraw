@@ -1,9 +1,9 @@
 /**
- * To show the user who modified a shape in matisse.
+ * To show the user who modified a shape in mdraw.
  */
 
-define(["matisse", "matisse.comm"],
-       function(matisse, commType) {
+define(["mdraw", "mdraw.comm"],
+       function(mdraw, commType) {
            
            function showModifiedByUser() {
 
@@ -11,8 +11,8 @@ define(["matisse", "matisse.comm"],
                commType.prototype.sendDrawMsg = 
                    (function (originalDrawMsg) {
                         return function (data) {
-                            data.modifiedBy = matisse.userName;
-                            originalDrawMsg.call(matisse.comm, data);
+                            data.modifiedBy = mdraw.userName;
+                            originalDrawMsg.call(mdraw.comm, data);
                         };
                     })(commType.prototype.sendDrawMsg);
 
@@ -20,7 +20,7 @@ define(["matisse", "matisse.comm"],
                commType.prototype.onDraw = 
                    (function (originalOnDraw) {
                         return function(data) {
-                            originalOnDraw.call(matisse.comm, data);
+                            originalOnDraw.call(mdraw.comm, data);
 
                             if(data.modifiedBy) {
                                 var shape = data.args[0].object

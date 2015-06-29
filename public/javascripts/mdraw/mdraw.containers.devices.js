@@ -5,7 +5,7 @@
  * About this : Registers device containers like iPad, Ipad, Desktop etc.
  */
 
-require(["matisse", "matisse.main", "matisse.containers", "matisse.palettes.properties", "matisse.util"], function (matisse, main, containers, objproperties, util) {
+require(["mdraw", "mdraw.main", "mdraw.containers", "mdraw.palettes.properties", "mdraw.util"], function (mdraw, main, containers, objproperties, util) {
 	"use strict";
 	containers.registercontainer('desktop-1024x768' , {
 			 	displayName: "desktop-1024x768",
