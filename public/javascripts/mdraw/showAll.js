@@ -30,7 +30,7 @@ $('#showShared').on('click', function(e){
   });
 //display "show all" links only when there are more than three white boards
 $('div.whiteboardList').each(function() {
-	if($(this).find('li').length > 3) 
+	if($(this).find('li').length > 3)
 		$(this).parents('div.row').next('div.row').find('div#showAllCreateWhiteBoard').show();
 });
 
@@ -41,7 +41,7 @@ function handleShowAllLink() {
 	ownedBoardList.each(function(index) {
 		index>2?$(this).addClass('ownedBoardHide'):$(this).removeClass('ownedBoardHide');
 	});
-	if(ownedBoardList.length <= 3) { 
+	if(ownedBoardList.length <= 3) {
 			showAll.hide();
 			ownedBoardList.show();
 		}

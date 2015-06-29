@@ -43,16 +43,12 @@ define(["mdraw"],
                  io.emit('hello', me());
 		     });
            io.on('nameChanged', function(friend) {
-               console.log(this);
                var io = this;
 
-               console.log('received', friend);
                var oldName = friend.oldName;
                var newName = friend.newName;
-               console.log('changing name for :', oldName, newName);
                friends.splice(friends.indexOf(oldName, 1));
                friends.push(newName);
-               //io.name.newName;
                view.updateList(friends);
 
 

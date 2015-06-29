@@ -17,7 +17,7 @@ var userModel = module.exports = nohm.model('User', {
     },
     methods: {
 	// custom methods we define here to make handling this model easier.
-      
+
 	/**
 	 * You can specify a data array that might come from the user and an array containing the fields that should be used from used from the data.
 	 * Optionally you can specify a function that gets called on every field/data pair to do a dynamic check if the data should be included.
@@ -26,24 +26,24 @@ var userModel = module.exports = nohm.model('User', {
 	fill: function (data, fields) {
 	    var props = {},
             self = this;
-	    
+
 	    fields = Array.isArray(fields) ? fields : Object.keys(data);
-	  
+
 	    fields.forEach(function (i) {
 		props[i] = data[i];
 	    });
-	    
+
 	    this.p(props);
 	    return props;
 	},
-	
+
 
 	/**
 	 * This is a wrapper around fill and save.
 	 */
 	store: function (data, callback) {
 	    var self = this;
-	    
+
 	    this.fill(data);
 	    this.save(function () {
 		callback.apply(self, Array.prototype.slice.call(arguments, 0));
@@ -81,11 +81,9 @@ var userModel = module.exports = nohm.model('User', {
 			  self.unlink(whiteBoard, 'ownedBoard');
 			  whiteBoard.unlink(self, 'userOwned');
 			  whiteBoard.getAll('User', 'userShared', function (err, userIds) {
-			  console.log(userIds);
           userIds.forEach(function (id) {
             var user = new userModel();
             user.load(id, function (err, props) {
-              console.log("first");
               user.unlink(whiteBoard, 'sharedBoard', function(err) {
                 if(!err) {
                   whiteBoard.unlink(user, 'userShared', function(err) {
@@ -113,9 +111,9 @@ var userModel = module.exports = nohm.model('User', {
 			    else {
 			    whiteBoard.save(function(err) {});
 				console.log("relation is saved");
-			    }				    
+			    }
 			});
-		    });  
+		    });
 		}
 	    });
 	},

@@ -1,5 +1,5 @@
 /*
- * ShortScroll - jQuery UI Widget 
+ * ShortScroll - jQuery UI Widget
  * Copyright (c) 2010 Jesse Baird
  *
  * http://jebaird.com/blog/shortscroll-jquery-ui-google-wave-style-scroll-bar
@@ -13,60 +13,59 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- *  
+ *
  *
  *
 */
 (function($) {
-    
+
     jQuery.event.special.jbShortscrollUpdateMarker = {
         setup: function(data, namespaces) {
             var elem = this, $elem = jQuery(elem);
             $elem.bind('scroll', jQuery.event.special.jbShortscrollUpdateMarker.handler);
         },
-    
+
         teardown: function(namespaces) {
             var elem = this, $elem = jQuery(elem);
             $elem.unbind('scroll', jQuery.event.special.jbShortscrollUpdateMarker.handler);
         },
-    
+
         handler: function(event) {
-           // console.log(event);
             var elem = this,
             scrollHeight = this.scrollHeight,
             scrollTop = this.scrollTop,
-            $elem = $(elem), 
+            $elem = $(elem),
             viewPort = $elem.innerHeight(),
             $marker = $elem.data('jb-shortscroll-marker');
-            
+
             markerIncrament=Math.ceil(scrollTop /(((scrollHeight-viewPort)/(viewPort/2-$marker.outerHeight()))));
             $marker.css('top',markerIncrament);
             event.type = "jbShortscrollUpdateMarker";
-           
+
             jQuery.event.handle.apply(this, arguments)
-    
+
         }
     };
-    
-    
-    
+
+
+
 
     $.widget("jb.shortscroll", {
 		options: {
 			scrollSpeed: 100,
 			animationSpeed: 150
 		},
-				
+
 		_create: function() {
-			
+
 			var self = this,
 				o = self.options,
 				el = self.element,
-                
+
                 wrapper = $('<div class="jb-shortscroll-wrapper"><div class="jb-shortscroll-track"><div class="jb-shortscroll-scrollbar"><div class="jb-shortscroll-scrollbar-btn-up jb-shortscroll-scrollbar-btn ui-corner-top" data-dir="up"><!--span class="scroll-up-btn"></span--></div><div class="scroll-middle-btn"></div><div class="jb-shortscroll-scrollbar-btn-down jb-shortscroll-scrollbar-btn ui-corner-bottom" data-dir="down"><!--span class="scroll-down-btn"></span--></div></div></div><div class="jb-shortscroll-marker ui-corner-all"></div><div class="jb-shortscroll-stopper ui-corner-all"></div></div>').insertAfter(el);
-                
+
             self._viewPort = el.innerHeight();
-            
+
             el
             .attr('tabindex','0')
             .addClass('jb-shortscroll-target')
@@ -82,12 +81,12 @@
                         //console.log('up false');
                         return false;
                     }
-                        
+
                 }
             });
 
             self._positionWrapper(wrapper);
-            
+
             wrapper
             .find('div.jb-shortscroll-scrollbar-btn')
             .hover(function(e){
@@ -120,24 +119,24 @@
                     el[0].scrollTop=markerIncrament*ui.position.top;
                }
             });
-            
+
             $(window).bind('resize',function(){
                 self._viewPort = el.innerHeight();
                 self._positionWrapper(wrapper);
             });
-               
+
 		},
-				
-		destroy: function() {			
+
+		destroy: function() {
 			this.element.next().remove();
             this.element.unbind('jbShortscrollUpdateMarker.jbss mousewheel.jbss');
 			//remove wrapper and mouse wheel events
 			$(window).unbind("resize");
 		},
-		
+
 		_setOption: function(option, value) {
 			$.Widget.prototype._setOption.apply( this, arguments );
-           
+
 		},
         /*
             get the ratic of pixs to the target to scroll track
@@ -146,7 +145,7 @@
             return Math.ceil((((this.element[0].scrollHeight-this._viewPort)/(this._viewPort/2-element.outerHeight()))));
         },
         _positionWrapper: function(wrapper){
-            
+
             wrapper
             .css({
                 position:'absolute',
@@ -159,9 +158,9 @@
                 my:'left top',
                 at:'right top',
                 offset:'-8 0',
-                collision:'none'               
+                collision:'none'
             })
         }
-        
+
 	});
 })(jQuery);

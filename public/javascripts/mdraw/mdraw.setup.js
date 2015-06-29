@@ -39,7 +39,6 @@ define(["mdraw", "mdraw.fabric", "mdraw.comm", "mdraw.main", "mdraw.containers",
 		 * Displays welcome message with user name
 		 * @param data - user details
 		 */
-		//console.log(mdraw);
               //$.get('/userinfo',
               //      function(info) {
 		       // /* check if userName is missing, show welcome message*/

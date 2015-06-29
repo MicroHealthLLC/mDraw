@@ -9,7 +9,6 @@ var nohm = require(__dirname+'/../node_modules/nohm/lib/nohm.js').Nohm;
 
 
 function boardRemoveHandler(data, key){
-        console.log('removing the board');
         var boardUrl = key;
         console.log(boardUrl);
         ShapesModel.find({board_url: "boards/" + boardUrl}, function (err, ids) {
@@ -97,9 +96,7 @@ var MatisseServer = new function() {
 
 
 exports.index = function (req, res) {
-  //console.log('jories');
     Object.create(MatisseServer).render(req, res);
-    //res.render('index', { title:'Matisse'});
 };
 
 exports.favicon = function (req, res, next) {
@@ -116,7 +113,6 @@ exports.boards = {
 	    var chars = "0123456789abcdefghiklmnopqrstuvwxyz";
         var string_length = 8;
         var requestedName = req.body.whiteboardName;
-        console.log(requestedName);
         whiteBoard.find({name: requestedName}, function (err, ids) {
             if (ids && ids.length>0){
                 console.log('board already exists');
@@ -128,8 +124,6 @@ exports.boards = {
                             error: true
                         });
                     } else {
-                        console.log('properties');
-                        console.log(props);
                         res.writeHead(302, {
                             'Location':'/boards/'+props.url
                         });
@@ -139,7 +133,6 @@ exports.boards = {
 
                 });
             } else{
-                console.log('creating a new board');
                 randomstring = '';
                 var session_data = req.session.auth;
                 //var userObj = new UserModel();
@@ -150,7 +143,7 @@ exports.boards = {
                     var rnum = Math.floor(Math.random() * chars.length);
                     randomstring += chars.substring(rnum, rnum + 1);
                 }
-                
+
                 if (req.body.whiteboardName === '') {
                   req.body.whiteboardName = randomstring;
                 }
@@ -164,14 +157,11 @@ exports.boards = {
                 };
                 whiteBoard.store(data, function (err) {
                     if (err === 'invalid') {
-                        console.log('board invalid');
                         next(whiteBoard.errors);
                     } else if (err) {
-                        console.log('other err');
                         next(err);
                     } else {
                         var self = this;
-                        console.log('link user');
                         //this is used to autoremove boards in 1 month.
                         //The database should be set up to emit expire events with --notify-keyspace-events Ex # E = Keyevent events, x = Expire events
                         self.getClient().set(req.body.whiteboardName, whiteBoard.id, function(){
@@ -181,7 +171,6 @@ exports.boards = {
                                 handler: boardRemoveHandler
                                 },
                                 function (err) {
-                                    console.log('schedule set');
                                     if (err){
                                         console.log(err);
                                     }

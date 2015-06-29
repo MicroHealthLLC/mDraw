@@ -5,7 +5,6 @@ $('#createWhiteboard').on('click', function(e){
     // We don't want this to act as a link so cancel the link action
     e.preventDefault();
     var nameTextboxValue = $('#name').val();
-    console.log(nameTextboxValue);
     if(nameTextboxValue == 'Name' || nameTextboxValue == '')
     {
 		    e.stopPropagation();

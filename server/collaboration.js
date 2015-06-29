@@ -130,7 +130,8 @@ var findInBoardModelforSetContainer = function (randomnString, wb_url, data) {
 };
 
 var drawOnBoard = function (url, data, socket) {
-    if (data.action === "clearText" || data.action === 'chat') {
+    if (data.action === "clearText" ) {
+			// data.action === 'chat'
         return;
     }
     collaboration.boardModel.find(
@@ -177,7 +178,7 @@ var drawOnBoard = function (url, data, socket) {
                         }
                     );
                 } else {
-                    shape.store(data, function(){});
+                    // shape.store(data, function(){});
                     socket.broadcast.to(url).emit('eventDraw', shape);
                 }
             }

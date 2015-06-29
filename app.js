@@ -43,14 +43,10 @@ application = (function () {
                   var user = new UserModel();
                   user.load(userid, function (err, props) {
                       user.getAll('Board', 'sharedBoard', function(err, ids) {
-                          console.log("shared");
-                          console.log(ids);
                           if(!err) {
                               ids.forEach(function (id) {
                                   var board = new BoardModel();
                                   board.load(id, function (err, props) {
-                                      console.log(id);
-                                      console.log("---------");
                                       board.link(user, 'userShared');
                                       board.save(noop);
                                   });
@@ -62,8 +58,6 @@ application = (function () {
                       });
 
                       user.getAll('Board', 'ownedBoard', function(err, bids) {
-                          console.log("owned");
-                          console.log(bids);
                           if(!err) {
                               bids.forEach(function (bid) {
                                   var sboard = new BoardModel();
@@ -128,7 +122,6 @@ application = (function () {
         }
         else {
             if (callback) {
-                console.log(param);
                 callback(param);
             }
         }
@@ -162,7 +155,6 @@ application = (function () {
                                 //var userObj = new UserModel();
                                 //var userID = userObj.getUserID(session_data);
                                 //var userName = userObj.getUserFromSession(session_data).name;
-                                console.log(ids);
                                 whiteBoard.load(ids[0], function(id) {
                                 });
                                 //UserModel.find({userID:userID}, function(err,ids) {
