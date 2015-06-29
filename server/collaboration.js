@@ -178,8 +178,11 @@ var drawOnBoard = function (url, data, socket) {
                         }
                     );
                 } else {
-                    // shape.store(data, function(){});
-                    socket.broadcast.to(url).emit('eventDraw', shape);
+									if (data.action === "chat" ) {
+							    	return;
+							    }
+                  shape.store(data, function(){});
+                  socket.broadcast.to(url).emit('eventDraw', shape);
                 }
             }
         });
