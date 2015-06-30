@@ -55,7 +55,7 @@ function boardRemoveHandler(data, key){
 
 
 
-var MatisseServer = new function() {
+var mDrawServer = new function() {
     var collectBoards = function(req, res, boardIds, callback) {
         var boards = [], i = 0, props, board = new BoardModel(), boardCount = boardIds.length;
 
@@ -88,7 +88,7 @@ var MatisseServer = new function() {
 
 
     server.render = function(req, res) {
-        res.render('index', { title:'Matisse'});
+        res.render('index', { title:'mDraw'});
 	};
 
 	return server;
@@ -96,7 +96,7 @@ var MatisseServer = new function() {
 
 
 exports.index = function (req, res) {
-    Object.create(MatisseServer).render(req, res);
+    Object.create(mDrawServer).render(req, res);
 };
 
 exports.favicon = function (req, res, next) {

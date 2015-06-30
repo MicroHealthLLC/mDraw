@@ -200,7 +200,7 @@ application = (function () {
 
       server.listen(8000);
 
-      console.log("Matisse server listening on port %d in %s mode", 8000, app.settings.env);
+      console.log("mDraw server listening on port %d in %s mode", 8000, app.settings.env);
       collaboration.collaborate(io);
       //require('./server/god-mode').enable(app, io, redis);
 }).call(this);
