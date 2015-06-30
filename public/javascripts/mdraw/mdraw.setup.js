@@ -27,10 +27,15 @@ define(["mdraw", "mdraw.fabric", "mdraw.comm", "mdraw.main", "mdraw.containers",
 				containers.canvasWidth = data.canvasWidth;
 				containers.canvasHeight = data.canvasHeight;
 				containers.setContainer(mdraw.containerName, 'old', containers.canvasWidth, containers.canvasHeight);
-          $('#boardName').text(data.name);
-			    $('#boardName').css("top",$('#boardName').width()+20);
+        $('#boardName').text(data.name);
+		    $('#boardName').css("top",$('#boardName').width()+100);
 				return;
-			}
+			} else {
+        $('#boardName').css("position", "relative");
+        $('#boardName').css("overflow", "visible");
+        console.log($('#boardName').html());
+        $('#boardName').css("top",$('#boardName').width()+140);
+      }
 			/* if data is not available or user logs in for the first time, show him the list of container names and layouts to choose */
 			//layouts.createLayoutsList();
 			containers.createContainerList();

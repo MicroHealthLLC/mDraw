@@ -213,7 +213,7 @@ textarea {
 
     position: fixed;
     width: 121px;
-    background-color: #464D57;
+    background-color: #CEE1EC;
 }
 
 #toolsdiv {
@@ -979,13 +979,13 @@ dashboardLeftThumbnail {
 #userLoginService{color:#00B7FF;}
 
 .rightFloater{float:right;}
-.new-logo-cntr{background-color:#222629;padding:5px 5px 10px 5px;border-bottom:1px solid #0E1215; }
+.new-logo-cntr{background-color:#69A3C7;padding:5px 5px 10px 5px;border-bottom:1px solid #0E1215; }
 .new-logo{background:url('../images/mdraw-small.png') no-repeat;width:95px;height:24px; background-size: cover;}
-.p-header{background-color: #2A2F35;border-bottom:1px solid #0E1215;cursor:pointer;}
+.p-header{background-color: #CEE1EC;border-bottom:1px solid #0E1215;cursor:pointer;}
 .p-text{color: #BCCED0;font-size: 10px;padding: 2px 0 2px 5px;text-transform: uppercase;font-family: Trebuchet MS;width:75%;}
 .p-header.p-open .p-icon{background:url('../images/expand.png') no-repeat;width:9px;height:5px;float:right;margin:-13px 5px 0 0;}
 .p-header.p-close .p-icon{background:url('../images/collapse.png') no-repeat;width:9px;height:5px;float:right;margin:-13px 5px 0 0;}
-.p-cntr{background-color:#464D57;display:none;}
+.p-cntr{background-color:#69A3C7;display:none;}
 .shape-holder{border-bottom:1px groove #0E1215;cursor:pointer;}
 .show{display:block;}
 .hide{display:none;}
@@ -1042,13 +1042,13 @@ dashboardLeftThumbnail {
 
 /************** Right Hand Side Menu Actions -- START -- ****************/
 .rightdiv {width:52px;float:right;height:100%;}
-.rightdiv .top{position:absolute;top:0px;background-color: #464D57;padding-bottom: 90px;height: 80%; width:50px;}
-.rightdiv .bottom{position:absolute;bottom:0px;width:52px;display:block;max-height:100%;background:#464D57;}
+.rightdiv .top{position:absolute;top:0px;background-color: #CEE1EC;padding-bottom: 90px;height: 80%; width:50px;}
+.rightdiv .bottom{position:absolute;bottom:0px;width:52px;display:block;max-height:100%;background:#69A3C7;}
 .rightdiv .bottom a,.rightdiv .bottom a:link,.rightdiv .bottom a:visited,.rightdiv .bottom a:hover,.rightdiv .bottom a:active{
 	color:#B8C2CB;text-decoration:none;
 }
 .user-image{background:url('../images/userprofile_bg.png') no-repeat;width:42px; height:53px;margin:8px 5px;}
-.board-name{-moz-transform:rotate(90deg);-moz-transform-origin: right;-webkit-transform: rotate(90deg);-webkit-transform-origin-x: right;font-size: 22px; color:#E3E6E9;letter-spacing:1px;width:auto;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;height: 26px; background-color: #464D57; position:absolute; top:30px; right:27px}
+.board-name{-moz-transform:rotate(90deg);-moz-transform-origin: right;-webkit-transform: rotate(90deg);-webkit-transform-origin-x: right;font-size: 22px; color:#E3E6E9;letter-spacing:1px;width:auto;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;height: 26px; background-color: #CEE1EC; position:absolute; top:30px; right:27px}
 .thumbnailText .success{color:#10B832;}
 .thumbnailText .error{color:red;}
 .menu-holder{border-top: 1px groove #0E1215;width:52px;text-align:center;padding:3px 0;cursor:pointer;color:#B8C2CB;position:relative;}
@@ -1131,16 +1131,16 @@ div.inactive-alert {display:none; left: 37%; position: absolute; top: 0;}
 .m-label {
   font: normal normal 300 12px / 21px "Roboto", Helvetica, Arial, Verdana, sans-serif;
   font-size: 12px;
-  color: #d88f40;
+  color: #000;
 }
 
 .shape-label {
   font: normal normal 300 12px / 21px "Roboto", Helvetica, Arial, Verdana, sans-serif;
-  color: #e67e22;
+  color: #000;
 }
 
 .board-name {
   font: normal normal 500 17px / 21px "Roboto", Helvetica, Arial, Verdana, sans-serif;
   font-size: 20px;
-  color: #d88f40;
+  color: #000;
 }

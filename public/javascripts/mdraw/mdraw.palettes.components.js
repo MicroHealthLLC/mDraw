@@ -464,11 +464,11 @@ define(["mdraw", "mdraw.palettes", "mdraw.util", "mdraw.palettes.properties"], f
 
     var imageComponent = new Component('image');
     imageComponent.addDimensionAndScale();
-    imageComponent.addStringProperty('source','http://www.themdraw.org/images/mattise_whitebg.png');
+    imageComponent.addStringProperty('source', window.location.origin + '/images/mdraw.png');
 
     imageComponent.addActions({
 				toolAction: function (args){
-					args.src = args.src ? args.src : 'http://www.themdraw.org/images/mattise_whitebg.png';
+					args.src = args.src ? args.src : window.location.origin + '/images/mdraw.png';
 					var img = fabric.Image.fromURL(args.src, function(img) {
 					    img.set({
 					      left: args.left,
