@@ -2,8 +2,7 @@
 - - - -
 
 ### About ###
-The mDraw is a Realtime Whiteboard Collaborative Tool for discussion for any project
-from research to concept mapping. Currently, the server acts as a message broadcaster using socket.io, i.e. it receives a message from the client and sends it out to all other clients.It consist of 3 parts that you can choose:
+The mDraw is a Realtime Drawing Collaborative Tool for any project from research to concept mapping. This project was forked from TheMatisse a great foundation however outdated with a number of issues.  Sadly, it was abandonded.  We brought it up to date, enhanced it and are maintaining it under the fork mDraw. Currently, the server acts as a message broadcaster using socket.io, i.e. it receives a message from the client and sends it out to all other clients.It consist of 3 parts that you can choose:
 
 * Shapes
   * Element
