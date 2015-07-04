@@ -1144,3 +1144,11 @@ div.inactive-alert {display:none; left: 37%; position: absolute; top: 0;}
   font-size: 20px;
   color: #000;
 }
+
+
+/*resize the preview image*/
+#result img {
+  height: auto;
+  overflow: scroll;
+  max-height: 450px;
+}

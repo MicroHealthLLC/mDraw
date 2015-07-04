@@ -25,11 +25,13 @@ collaboration = module.exports = {
 				writeShapeModels(wb_url, socket);
 			});
 			socket.on("setContainer", function (location, data) {
+				console.log('setContainer in line no. 28 ' + data);
 				var wb_url = location.replace("/", "");
 				var randomnString = wb_url.substr(wb_url.indexOf('/') + 1);
 				findInBoardModelforSetContainer(randomnString, wb_url, data);
 			});
 			socket.on('eventDraw', function (location, data) {
+				console.log('eventDraw in line no. 33 ' + data);
 				var url = location.replace("/", "");
 				drawOnBoard(url, data, socket);
 			});

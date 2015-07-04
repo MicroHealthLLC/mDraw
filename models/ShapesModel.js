@@ -103,6 +103,7 @@ var shapesModel = module.exports = nohm.model('Shapes', {
                         nohm.logError(err);
                         fn(err);
                     } else {
+                        console.log('load shape in line no. 106');
                         this.load(ids[0], fn);
                     }
                 });

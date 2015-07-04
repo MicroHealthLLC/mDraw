@@ -78,6 +78,8 @@ define(["mdraw", "mdraw.ui", "mdraw.util", "mdraw.fabric", "mdraw.palettes", "md
             $('#save-svg').click(mActionBar.handleSvgDownload);
 
             if(mdraw.containers[mdraw.containerName] === undefined) {
+                /*activate our save png*/
+                $('#name-undefined').show();
                 $('#showImageIcon').click(mActionBar.handleRawAction);
             } else {
                 $('#showImageIcon').click(toolHandlers.openSubmenu);

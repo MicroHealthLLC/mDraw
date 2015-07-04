@@ -4,7 +4,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
         initialize: function () {
             var selfObj = this;
 
-            //Attach events for the Actions         
+            //Attach events for the Actions
             var bottomEle = $(".bottom");
             bottomEle.click(function (e) {
                 selfObj.handleAction.call(selfObj, e);
@@ -51,7 +51,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
             }
         },
         discussHandler: function () {
-            //TODO Refactor with Bootstrap Dialog       
+            //TODO Refactor with Bootstrap Dialog
             $('#chatdialog').dialog({
                 position: { my: "left top", at: "righ bottom", of: window },
                 width: 250
@@ -456,11 +456,18 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
             saveAs(blob, "download.svg");
 
         },
-        handlePngDownload: function(){
+        handlePngDownload: function() {
             console.log(canvas);
             var dataURL = canvas.toDataURL();
             var blob = util.dataURLToBlob(dataURL);
-            saveAs(blob, "download.png");
+            var name = $('#png-name').val();
+            if (name.trim() === '') {
+              $('#name-undefined').text('Please provide a name');
+              $('#name-undefined').css('color', 'red');
+              return;
+            }
+            saveAs(blob, $('#png-name').val());
+            $('#name-undefined').text('');
         },
         handleRawAction: function(){
         	if(util.checkForImage()){
@@ -470,10 +477,12 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
         	//Canvas2Image.saveAsPNG(canvas, false); /* alernative method */
             canvas.deactivateAll();
             var data = canvas.toDataURL('png', 0.1);
-            popup('popUpDiv', 'closediv', 600, 600);
+            popup('popUpDiv', 'closediv', 600, 450);
             $('#device-container').hide();
+            /*show the save png*/
+            $('.save-png-image').show();
             $("#result").html('<img src=' + data + ' />');
-            
+
         },
         handleClipAction: function(){
             if(util.checkForImage()){
@@ -515,7 +524,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
                         $("#result").html('<img src=' + data + ' />');
                         $(this).slideDown("fast");
                     });
-                    
+
                 });
             };
             var clipCanvas = new fabric.Canvas('clip');
@@ -527,7 +536,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
             var yToAdd = mdrawContainer.viewportY;
             clipCanvas.setHeight(canvas.height);
             clipCanvas.setWidth(canvas.width);
-            $.each(canvas.getObjects(),function(index,value) { 
+            $.each(canvas.getObjects(),function(index,value) {
                 clipCanvas.add(value.clone());
             });
             setClipCanvas(clipCanvas,xToAdd,yToAdd);
@@ -536,7 +545,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
             popup('popUpDiv', 'closediv', 1024, 768);
             if(mdraw.containerName=='browser') $('#popUpDiv').addClass('scale-container');
             $("#result").html('<img src=' + data + ' />');
-            
+
             var containerDiv = $('#device-container');
             containerDiv.css({"height":containerHeight, "width":containerWidth, "background-image":containerImgSrc, "top":0, "left":0});
             containerDiv.draggable({ containment: "parent"}).show();
@@ -547,7 +556,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
                 clipImage(clipCanvas,xToAdd,yToAdd,containerDiv);
                 containerDiv.hide().next('#done').hide();
             })
-            
+
         },
         getOriginalObj: function(obj) {
             var originalObj = {};

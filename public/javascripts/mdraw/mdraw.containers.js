@@ -20,8 +20,10 @@ define(["mdraw", "mdraw.main", "mdraw.ui", "mdraw.util", "mdraw.layouts"], funct
 		 * @param paletteName
 		 */
 		createContainerList: function () {
+			/*hide the save png*/
+			$('.save-png-image').hide();
 			var thisRef = this;
-			var html = '<div id="containerlist" style="padding:15px"><b style="font-size: 14px">Select a Container:  </b>';
+			var html = '<div id="containerlist" style="padding:15px;display: flex"><b style="font-size: 14px">Select a Container:  </b>';
 			var containerHolder = "<select id='containers' >";
 			var contName;
 			for (contName in mdraw.containers) {
@@ -40,12 +42,12 @@ define(["mdraw", "mdraw.main", "mdraw.ui", "mdraw.util", "mdraw.layouts"], funct
 			layouts.createLayoutsList();
 
 			// create a field for canvas width
-			var canvasWidth = "<div style='padding:15px'><b style='font-size: 14px'>Canvas Width: </b><input id='canvasWidth' type = 'text' value='1024'><b style='font-size: 14px'>px</b></div>";
+			var canvasWidth = "<div style='padding:15px;display: flex'><b style='font-size: 14px'>Canvas Width: </b><input id='canvasWidth' type = 'text' value='1024'><b style='font-size: 14px'>px</b></div>";
 			$(document.getElementById('result')).append(canvasWidth);
 			$('#canvasWidth').val(mdraw.containers[$('#containers').val()].width);
 
 			// create a field for canvas height
-			var canvasHeight = "<div style='padding:15px'><b style='font-size: 14px'>Canvas Height: </b><input id='canvasHeight' type = 'text' value='768'><b style='font-size: 14px'>px</b></div>";
+			var canvasHeight = "<div style='padding:15px;display: flex'><b style='font-size: 14px'>Canvas Height: </b><input id='canvasHeight' type = 'text' value='768'><b style='font-size: 14px'>px</b></div>";
 			$(document.getElementById('result')).append(canvasHeight);
 			$('#canvasHeight').val(mdraw.containers[$('#containers').val()].height);
 

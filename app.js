@@ -15,6 +15,7 @@ application = (function () {
     var bodyParser = require('body-parser');
     var methodOverride = require('method-override');
     var Nohm = require('nohm').Nohm;
+    var nohm = require('nohm').Nohm;
     var BoardModel = require(__dirname + '/models/BoardModel.js');
     var ShapesModel = require(__dirname + '/models/ShapesModel.js');
     var UserModel = require(__dirname + '/models/UserModel.js');
@@ -31,6 +32,21 @@ application = (function () {
 
     redis.on("connect", function() {
       Nohm.setClient(redis);
+      // BoardModel.find({name: 'hello'}, function(err, ids) {
+      //   console.log(ids);
+      // });
+      // BoardModel.load(85, function(err, properties) {
+      //   console.log(properties);
+      // });
+      // ShapesModel.find({board_url: 'boards/abcd'}, function(err, ids) {
+      //   console.log(ids);
+      // });
+      ShapesModel.load(86, function(err, properties) {
+        console.log(properties);
+      });
+      // var shape = nohm.factory('Shapes');
+      // shape.id = 82;
+      // shape.remove();
       /*this userModel object must go here after*/
       /*establishing Nohm connection in the redis and to avoid the error of*/
       /*Warning: setClient() received a redis client that is not connected yet. Consider waiting for an established connection before setting it*/
