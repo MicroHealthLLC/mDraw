@@ -3,6 +3,7 @@ logs
 *.log
 *.DS_Store
 .DS_Store
+uploads
 
 # Runtime data
 pids
