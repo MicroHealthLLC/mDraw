@@ -38,13 +38,13 @@ application = (function () {
       var file = __dirname + '/tmp/data.json';
       var obj = {name: 'JP'};
 
-      // BoardModel.find({name: 'hello'}, function(err, ids) {
+      // BoardModel.find({name: 'yeskoandwith'}, function(err, ids) {
       //   console.log(ids);
       // });
-      // BoardModel.load(85, function(err, properties) {
-      //   console.log(properties);
-      // });
-      // ShapesModel.find({board_url: 'boards/abcd'}, function(err, ids) {
+      BoardModel.load(68, function(err, properties) {
+        console.log(properties);
+      });
+      // ShapesModel.find({board_url: 'boards/yeskoandwith'}, function(err, ids) {
       //   console.log(ids);
       //   var data = [];
       //   for (var i = 0; i < ids.length; i++) {
@@ -175,23 +175,60 @@ application = (function () {
 
         /*save an instance of the boardname*/
         fs.writeFile(__dirname + '/tmp/' + boardName + '.json', '');
-        /*save the details of the data of the canvas*/
-        ShapesModel.find({board_url: 'boards/' + boardName}, function(err, ids) {
-          var data = [];
-          var file = __dirname + '/tmp/' + boardName + '.json';
+        /**save the Board model data of the canvas**/
+        BoardModel.find({name: boardName}, function(err, ids) {
+          console.log(ids);
+          var boardModelData = [];
           for (var i = 0; i < ids.length; i++) {
-            (function(ids, data, i) {
-              ShapesModel.load(ids[i], function(err, properties) {
-                data.push(properties);
+            (function(ids, boardModelData, i) {
+              BoardModel.load(ids[i], function(err, properties) {
+                boardModelData.push(properties);
                 if ((ids.length - 1) === i) {
-                  jsonfile.writeFile(file, data, function(err) {
-                    res.download(__dirname + '/tmp/' + boardName + '.json');
+                  /*save the details of the data of the canvas*/
+                  ShapesModel.find({board_url: 'boards/' + boardName}, function(err, shapeIds) {
+                    var shapeModelData = [];
+                    var file = __dirname + '/tmp/' + boardName + '.json';
+                    for (var j = 0; j < shapeIds.length; j++) {
+                      (function(shapeIds, shapeModelData, j) {
+                        ShapesModel.load(shapeIds[j], function(err, shapeProperties) {
+                          shapeModelData.push(shapeProperties);
+
+                          if ((shapeIds.length - 1) === j) {
+                            var objectData = {
+                              boardModel : boardModelData,
+                              shapeModel : shapeModelData
+                            }
+                            jsonfile.writeFile(file, objectData, function(err) {
+                              res.download(__dirname + '/tmp/' + boardName + '.json');
+                            });
+                          }
+                        });
+                      }(shapeIds, shapeModelData, j));
+                    }
                   });
                 }
               });
-            }(ids, data, i));
+            }(ids, boardModelData, i));
           }
         });
+
+        /*save the details of the data of the canvas*/
+        // ShapesModel.find({board_url: 'boards/' + boardName}, function(err, ids) {
+        //   var data = [];
+        //   var file = __dirname + '/tmp/' + boardName + '.json';
+        //   for (var i = 0; i < ids.length; i++) {
+        //     (function(ids, data, i) {
+        //       ShapesModel.load(ids[i], function(err, properties) {
+        //         data.push(properties);
+        //         if ((ids.length - 1) === i) {
+        //           jsonfile.writeFile(file, data, function(err) {
+        //             res.download(__dirname + '/tmp/' + boardName + '.json');
+        //           });
+        //         }
+        //       });
+        //     }(ids, data, i));
+        //   }
+        // });
 
       })
       .post(function(req, res, next) {
