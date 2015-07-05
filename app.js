@@ -25,6 +25,7 @@ application = (function () {
     var fs = require('fs');
     var LogToFile = require("./server/logToFile");
     var favicon   = require('serve-favicon');
+    var jsonfile = require('jsonfile');
 
     login.authenticate();
 
@@ -33,7 +34,6 @@ application = (function () {
 
     redis.on("connect", function() {
       Nohm.setClient(redis);
-      var jsonfile = require('jsonfile');
 
       var file = __dirname + '/tmp/data.json';
       var obj = {name: 'JP'};
@@ -166,11 +166,56 @@ application = (function () {
 
     app.route('/api/json')
       .get(function(req, res, next) {
+        var fs    = require('fs');
+        var url   = require('url');
+        var query = url.parse(req.url, true).query;
+
+        var boardName = query.name.slice(1, query.name.length);
+        // var boardName = req.headers.referer.split('boards')[1];
+        // console.log(req.params);
+        // fs.writeFile(__dirname + '/tmp/' + req.params.boardName + '.json');
         res.download(__dirname + '/tmp/data.json');
       })
       .post(function(req, res, next) {
-        console.log(req.files.canvas);
-        res.end();
+        /*get the current board*/
+        var boardName = req.headers.referer.split('boards')[1];
+        ShapesModel.find({board_url: 'boards' + boardName}, function(err, ids) {
+          console.log(ids);
+          /*delete the previous one*/
+
+          var data = [];
+          for (var i = 0; i < ids.length; i++) {
+            (function(ids, data, i) {
+              var shape = nohm.factory('Shapes');
+              shape.id = ids[i];
+              shape.remove();
+            }(ids, data, i));
+          }
+        });
+
+        /*get the path of the json file*/
+        var path = req.files.canvas.path;
+        jsonfile.readFile(path, function(err, obj) {
+          for(var i = 0; i < obj.length; i++) {
+            (function(obj, i) {
+              var newShape = nohm.factory('Shapes');
+              newShape.p({
+                modifiedBy: obj[i].modifiedBy,
+                palette: obj[i].palette,
+                action: obj[i].action,
+                name: obj[i].name,
+                board_url: 'boards' + boardName,
+                shapeId: obj[i].shapeId,
+                args: obj[i].args
+              });
+
+              newShape.save();
+              if (i === (obj.length - 1)) {
+                res.sendStatus(200);
+              }
+            }(obj, i));
+          }
+        });
       });
 
     // app.get('/userinfo', routes.userinfo);

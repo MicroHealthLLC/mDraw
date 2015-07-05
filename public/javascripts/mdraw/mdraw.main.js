@@ -77,6 +77,7 @@ define(["mdraw", "mdraw.ui", "mdraw.util", "mdraw.fabric", "mdraw.palettes", "md
             $('#save-png').click(mActionBar.handlePngDownload);
             $('#save-svg').click(mActionBar.handleSvgDownload);
             $('#save-file-canvas').click(mActionBar.handleSaveAs);
+            $('#save-canvas').click(mActionBar.handleSave);
 
             if(mdraw.containers[mdraw.containerName] === undefined) {
                 /*activate our save png*/

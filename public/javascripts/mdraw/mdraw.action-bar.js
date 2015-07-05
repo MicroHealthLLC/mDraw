@@ -472,12 +472,40 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
         handleCanvasDownload: function() {
           console.log(canvas);
         },
+        handleSave: function() {
+          var data = {
+            name: 'jories'
+          };
+          console.log(window.location);
+          jQuery.ajax({
+            url: 'http://localhost:8000/api/json?name=' + window.location.pathname,
+            dataType: "json",
+            processData: false,
+            type: 'GET',
+            success: function(data){
+              // window.location.reload();
+            }
+          });
+        },
         handleSaveAs: function(e) {
-          console.log('jories');
-          e.preventDefault();
           $('#fileDialog')[0].click();
           $('#fileDialog').change(function(evt) {
-            $('#loadCanvasSubmit').click();
+            var data = new FormData();
+            jQuery.each(jQuery('#fileDialog')[0].files, function(i, file) {
+                data.append('canvas',file);
+            });
+            jQuery.ajax({
+              url: 'http://localhost:8000/api/json',
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              type: 'POST',
+              success: function(data){
+                window.location.reload();
+              }
+            });
+            // $('#loadCanvasSubmit').click();
             // $('#loadCanvasSubmit')[0].click(function(e) {
             //   console.log(e);
             //   e.preventDefault();
