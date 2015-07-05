@@ -1152,3 +1152,12 @@ div.inactive-alert {display:none; left: 37%; position: absolute; top: 0;}
   overflow: scroll;
   max-height: 450px;
 }
+
+#save-file-canvas a {
+  color: #666666;
+  cursor: pointer;
+}
+
+#save-canvas {
+  color: #666666;
+}

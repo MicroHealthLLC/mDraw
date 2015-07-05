@@ -105,23 +105,15 @@
         <div class="m-submenu-list">
               <span class="menu-arrow"></span>
               <ul class="menu-list">
-                <li><a href="" id="save-canvas" download> Save Canvas </a></li>
+                <li><a href="/api/json" id="save-canvas" download> Save Canvas </a></li>
                 <li>
-                  <!-- <form role="form" action="/api/json" method="post" enctype="multipart/form-data"> -->
-                    <!-- <input type="file" id="fileDialog" style="display:none" accept=".json"/>
-                    <a href="" id="save-file-canvas">Load Canvas</a> -->
-                    <!-- <div class="form-group">
-                      <label for="onixfile">Upload ONIX File</label>
-                      <input type="file" name="onixfile" id="onixfile"/>
-                    </div>
-                  </form> -->
                   <form id        =  "photo"
                          enctype   =  "multipart/form-data"
                          action    =  "/api/json"
                          method    =  "post"
                     >
                     <input type="file" name="canvas" id="fileDialog" style="display:none" accept=".json"/>
-                    <label id="save-file-canvas">Load Canvas</label>
+                    <label id="save-file-canvas"><a> Load Canvas </a></label>
                     <!-- <input type="file" name="userPhoto" /> -->
                     <input id="loadCanvasSubmit" hidden type="submit">
                   </form>

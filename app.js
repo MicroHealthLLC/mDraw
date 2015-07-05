@@ -169,20 +169,36 @@ application = (function () {
         var fs    = require('fs');
         var url   = require('url');
         var query = url.parse(req.url, true).query;
-
-        var boardName = query.name.slice(1, query.name.length);
         // var boardName = req.headers.referer.split('boards')[1];
-        // console.log(req.params);
-        // fs.writeFile(__dirname + '/tmp/' + req.params.boardName + '.json');
-        res.download(__dirname + '/tmp/data.json');
+        var boardName = query.name.slice(1, query.name.length);
+            boardName = boardName.split('boards/')[1];
+
+        /*save an instance of the boardname*/
+        fs.writeFile(__dirname + '/tmp/' + boardName + '.json', '');
+        /*save the details of the data of the canvas*/
+        ShapesModel.find({board_url: 'boards/' + boardName}, function(err, ids) {
+          var data = [];
+          var file = __dirname + '/tmp/' + boardName + '.json';
+          for (var i = 0; i < ids.length; i++) {
+            (function(ids, data, i) {
+              ShapesModel.load(ids[i], function(err, properties) {
+                data.push(properties);
+                if ((ids.length - 1) === i) {
+                  jsonfile.writeFile(file, data, function(err) {
+                    res.download(__dirname + '/tmp/' + boardName + '.json');
+                  });
+                }
+              });
+            }(ids, data, i));
+          }
+        });
+
       })
       .post(function(req, res, next) {
         /*get the current board*/
         var boardName = req.headers.referer.split('boards')[1];
         ShapesModel.find({board_url: 'boards' + boardName}, function(err, ids) {
-          console.log(ids);
           /*delete the previous one*/
-
           var data = [];
           for (var i = 0; i < ids.length; i++) {
             (function(ids, data, i) {
