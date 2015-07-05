@@ -233,8 +233,8 @@ application = (function () {
       })
       .post(function(req, res, next) {
         /*get the current board*/
-        var boardName = req.headers.referer.split('boards')[1];
-        ShapesModel.find({board_url: 'boards' + boardName}, function(err, ids) {
+        var boardName = req.headers.referer.split('boards/')[1];
+        ShapesModel.find({board_url: 'boards/' + boardName}, function(err, ids) {
           /*delete the previous one*/
           var data = [];
           for (var i = 0; i < ids.length; i++) {
@@ -246,25 +246,55 @@ application = (function () {
           }
         });
 
+        /*delete the board Model*/
+        BoardModel.find({name: boardName}, function(err, ids) {
+          var data = [];
+          for (var i = 0; i < ids.length; i++) {
+            (function(ids, data, i) {
+              var board = nohm.factory('Board');
+              board.id = ids[i];
+              board.remove();
+            }(ids, data, i));
+          }
+        });
+
         /*get the path of the json file*/
         var path = req.files.canvas.path;
         jsonfile.readFile(path, function(err, obj) {
-          for(var i = 0; i < obj.length; i++) {
+          for(var i = 0; i < obj.shapeModel.length; i++) {
             (function(obj, i) {
               var newShape = nohm.factory('Shapes');
               newShape.p({
-                modifiedBy: obj[i].modifiedBy,
-                palette: obj[i].palette,
-                action: obj[i].action,
-                name: obj[i].name,
+                modifiedBy: obj.shapeModel[i].modifiedBy,
+                palette: obj.shapeModel[i].palette,
+                action: obj.shapeModel[i].action,
+                name: obj.shapeModel[i].name,
                 board_url: 'boards' + boardName,
-                shapeId: obj[i].shapeId,
-                args: obj[i].args
+                shapeId: obj.shapeModel[i].shapeId,
+                args: obj.shapeModel[i].args
               });
 
               newShape.save();
-              if (i === (obj.length - 1)) {
-                res.sendStatus(200);
+              if (i === (obj.shapeModel.length - 1)) {
+                /*save the new board model*/
+                for(var j = 0; j < obj.boardModel.length; j++) {
+                  (function(obj, j) {
+                    var newBoard = nohm.factory('Board');
+                    newBoard.p({
+                      url: boardName,
+                      container: obj.boardModel[j].container,
+                      canvasWidth: obj.boardModel[j].canvasWidth,
+                      canvasHeight: obj.boardModel[j].canvasHeight,
+                      name: boardName,
+                      createdBy: 'userName'
+                    });
+
+                    newBoard.save();
+                    if (j === (obj.boardModel.length - 1)) {
+                      res.sendStatus(200);
+                    }
+                  }(obj, j));
+                }
               }
             }(obj, i));
           }
