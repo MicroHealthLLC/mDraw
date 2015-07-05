@@ -76,13 +76,16 @@ define(["mdraw", "mdraw.ui", "mdraw.util", "mdraw.fabric", "mdraw.palettes", "md
             });
             $('#save-png').click(mActionBar.handlePngDownload);
             $('#save-svg').click(mActionBar.handleSvgDownload);
+            $('#save-file-canvas').click(mActionBar.handleSaveAs);
 
             if(mdraw.containers[mdraw.containerName] === undefined) {
                 /*activate our save png*/
                 $('#name-undefined').show();
+                $('#showCanvas').click(toolHandlers.openSubmenu);
                 $('#showImageIcon').click(mActionBar.handleRawAction);
             } else {
                 $('#showImageIcon').click(toolHandlers.openSubmenu);
+                $('#showCanvas').click(toolHandlers.openSubmenu);
             }
 
             $('ul.menu-list','div.m-align-list').on("click", "li" , function () {

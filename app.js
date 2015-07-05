@@ -14,6 +14,7 @@ application = (function () {
     var session = require('express-session');
     var bodyParser = require('body-parser');
     var methodOverride = require('method-override');
+    var multer         = require('multer');
     var Nohm = require('nohm').Nohm;
     var nohm = require('nohm').Nohm;
     var BoardModel = require(__dirname + '/models/BoardModel.js');
@@ -32,6 +33,11 @@ application = (function () {
 
     redis.on("connect", function() {
       Nohm.setClient(redis);
+      var jsonfile = require('jsonfile');
+
+      var file = __dirname + '/tmp/data.json';
+      var obj = {name: 'JP'};
+
       // BoardModel.find({name: 'hello'}, function(err, ids) {
       //   console.log(ids);
       // });
@@ -40,10 +46,24 @@ application = (function () {
       // });
       // ShapesModel.find({board_url: 'boards/abcd'}, function(err, ids) {
       //   console.log(ids);
+      //   var data = [];
+      //   for (var i = 0; i < ids.length; i++) {
+      //     (function(ids, data, i) {
+      //       ShapesModel.load(ids[i], function(err, properties) {
+      //         data.push(properties);
+      //         if ((ids.length - 1) === i) {
+      //           console.log(data);
+      //           jsonfile.writeFileSync(file, data);
+      //         }
+      //       });
+      //     }(ids, data, i));
+      //   }
       // });
-      ShapesModel.load(86, function(err, properties) {
-        console.log(properties);
-      });
+
+
+      // ShapesModel.load(86, function(err, properties) {
+      //   console.log(properties);
+      // });
       // var shape = nohm.factory('Shapes');
       // shape.id = 82;
       // shape.remove();
@@ -119,6 +139,19 @@ application = (function () {
     app.use(everyauth.middleware());
     app.use(methodOverride());
     app.use(compression(__dirname + '/public'));
+    app.use(multer({
+    dest:'uploads',
+    rename: function (fieldname, filename) {
+      return filename + Date.now();
+    },
+    onFileUploadStart: function (file) {
+      console.log(file.originalname + ' is starting ...');
+    },
+    onFileUploadComplete: function (file) {
+      console.log(file.fieldname + ' uploaded to  ' + file.path);
+    //done=true;
+    }
+  }));
 
     // Routes
     app.get('/', routes.index);
@@ -130,6 +163,16 @@ application = (function () {
     app.get('/about', function (req, res, next) {
 	    res.sendfile(__dirname + '/about.html');
     });
+
+    app.route('/api/json')
+      .get(function(req, res, next) {
+        res.download(__dirname + '/tmp/data.json');
+      })
+      .post(function(req, res, next) {
+        console.log(req.files.canvas);
+        res.end();
+      });
+
     // app.get('/userinfo', routes.userinfo);
 
     var logErrorOrExecute = function (err, param, callback) {

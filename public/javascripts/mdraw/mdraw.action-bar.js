@@ -469,6 +469,22 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
             saveAs(blob, $('#png-name').val());
             $('#name-undefined').text('');
         },
+        handleCanvasDownload: function() {
+          console.log(canvas);
+        },
+        handleSaveAs: function(e) {
+          console.log('jories');
+          e.preventDefault();
+          $('#fileDialog')[0].click();
+          $('#fileDialog').change(function(evt) {
+            $('#loadCanvasSubmit').click();
+            // $('#loadCanvasSubmit')[0].click(function(e) {
+            //   console.log(e);
+            //   e.preventDefault();
+            // });
+
+          });
+        },
         handleRawAction: function(){
         	if(util.checkForImage()){
         		alert("Show Image works only for whiteboards with no images!");
