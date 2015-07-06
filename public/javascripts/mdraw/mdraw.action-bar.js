@@ -495,7 +495,7 @@ define(["mdraw", "mdraw.util"], function (mdraw, util) {
                 data.append('canvas',file);
             });
             jQuery.ajax({
-              url: 'http://localhost:8000/api/json',
+              url: window.location.origin + '/api/json',
               data: data,
               cache: false,
               contentType: false,
