@@ -38,12 +38,12 @@ application = (function () {
       var file = __dirname + '/tmp/data.json';
       var obj = {name: 'JP'};
 
-      // BoardModel.find({name: 'yeskoandwith'}, function(err, ids) {
+      // BoardModel.find({name: 'lkasjflksdajflksjds'}, function(err, ids) {
       //   console.log(ids);
       // });
-      BoardModel.load(68, function(err, properties) {
-        console.log(properties);
-      });
+      // BoardModel.load(85, function(err, properties) {
+      //   console.log(properties);
+      // });
       // ShapesModel.find({board_url: 'boards/yeskoandwith'}, function(err, ids) {
       //   console.log(ids);
       //   var data = [];
@@ -269,7 +269,7 @@ application = (function () {
                 palette: obj.shapeModel[i].palette,
                 action: obj.shapeModel[i].action,
                 name: obj.shapeModel[i].name,
-                board_url: 'boards' + boardName,
+                board_url: 'boards/' + boardName,
                 shapeId: obj.shapeModel[i].shapeId,
                 args: obj.shapeModel[i].args
               });
